@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5526C1282D53E6A200DFFA0C /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 5526C1272D53E6A200DFFA0C /* SkeletonView */; };
+		55820E512D4E05D000E330C7 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 55820E502D4E05D000E330C7 /* SDWebImage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		552D9B122D47EBE9003A06C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5526C1282D53E6A200DFFA0C /* SkeletonView in Frameworks */,
+				55820E512D4E05D000E330C7 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +132,8 @@
 			);
 			name = MovieSphere;
 			packageProductDependencies = (
+				55820E502D4E05D000E330C7 /* SDWebImage */,
+				5526C1272D53E6A200DFFA0C /* SkeletonView */,
 			);
 			productName = MovieSphere;
 			productReference = 552D9AFB2D47EBE8003A06C5 /* MovieSphere.app */;
@@ -208,6 +217,10 @@
 			);
 			mainGroup = 552D9AF22D47EBE8003A06C5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				5526C1262D53E6A200DFFA0C /* XCRemoteSwiftPackageReference "SkeletonView" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 552D9AFC2D47EBE8003A06C5 /* Products */;
 			projectDirPath = "";
@@ -293,9 +306,10 @@
 				INFOPLIST_FILE = MovieSphere/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -320,9 +334,10 @@
 				INFOPLIST_FILE = MovieSphere/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -563,6 +578,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5526C1262D53E6A200DFFA0C /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
+		55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.20.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5526C1272D53E6A200DFFA0C /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5526C1262D53E6A200DFFA0C /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
+		};
+		55820E502D4E05D000E330C7 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 552D9AF32D47EBE8003A06C5 /* Project object */;
 }
