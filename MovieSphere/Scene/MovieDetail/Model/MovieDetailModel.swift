@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct MovieDetailModel:Codable, MLeftImageRightDetailCellProtocol, Hashable {
+struct MovieDetailModel:Codable, Hashable {
    
     let id: Int?
     let backdropPath: String?
@@ -20,22 +20,6 @@ struct MovieDetailModel:Codable, MLeftImageRightDetailCellProtocol, Hashable {
     let overview: String?
     let releaseDate: String?
     let genres: [GenreNames]?
-    
-    var posterUrl: String? {
-        posterPath
-    }
-    
-    var movieTitle: String? {
-        title
-    }
-    
-    var movieVoteAverage: Double? {
-        voteAverage
-    }
-    
-    var movieReleaseDate: String? {
-        releaseDate
-    }
     
     enum CodingKeys: String, CodingKey{
         case id, title, runtime, overview, genres
@@ -58,9 +42,32 @@ struct MovieDetailModel:Codable, MLeftImageRightDetailCellProtocol, Hashable {
         self.releaseDate = releaseDate
         self.genres = genres
     }
+    
+    func convertToDictionary()->[String: Any] {
+        return [
+            "id":id ?? "",
+            "backdropPath":backdropPath ?? "",
+            "originalLanguage":originalLanguage ?? "",
+            "title":title ?? "",
+            "runtime":runtime ?? "",
+            "voteAverage":voteAverage ?? 0,
+            "posterPath":posterPath ?? "",
+            "overview":overview ?? "",
+            "releaseDate":releaseDate ?? "",
+            "genres": genres?.map { $0.convertToDictionary() } ?? []
+        ]
+    }
 }
 
 struct GenreNames:Codable, Hashable {
     let id: Int?
     let name: String?
+    
+    func convertToDictionary()->[String:Any]{
+        return [
+            "id":id ?? "",
+            "name":name ?? ""
+        ]
+    }
 }
+

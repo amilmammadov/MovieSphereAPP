@@ -13,34 +13,31 @@ class WatchListViewModel {
     var genreNames = [[String]]()
     var successCallBack: (()->Void)?
     
-    func getWatchListMovies(){
-        getWatchListData()
-        getGenreNames()
-    }
-    
-    private func getWatchListData(){
+    func getWatchListData(){
         
-        PersistanceManager.shared.retrieveFavoriteMovies { [weak self] result in
+        FirebaseManager.shared.getWatchListMovies { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let data):
+                print(data)
                 self.watchListMovies = data
+                getGenreNames()
                 self.successCallBack?()
             case .failure(let error):
                 print(error)
             }
         }
     }
-    func removeFromFavorite(movie: MovieDetailModel) {
+    
+    func removeMovieFromWatchlist(movieId: Int){
         
-        PersistanceManager.shared.updateWith(movie: movie, operationType: .remove) { [weak self] error in
-            guard let self  = self else { return }
-            guard let error = error else {
-                print("success")
-                return
+        FirebaseManager.shared.removeFromDatabase(movieId: movieId) { error in
+            if let error = error {
+                print(error)
             }
-            print("error")
+            
+            print("Movie removed")
         }
     }
     

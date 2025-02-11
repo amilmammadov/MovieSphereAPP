@@ -31,7 +31,7 @@ class WatchListViewController: UIViewController {
     
     private func configureData(){
         
-        watchListViewModel.getWatchListMovies()
+        watchListViewModel.getWatchListData()
         watchListViewModel.successCallBack = {
             
             if self.watchListViewModel.watchListMovies.isEmpty {
@@ -99,7 +99,7 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
             self.watchListViewModel.watchListMovies.remove(at: indexPath.row)
             self.watchListCollection.deleteRows(at: [indexPath], with: .left)
             
-            self.watchListViewModel.removeFromFavorite(movie: movie)
+            self.watchListViewModel.removeMovieFromWatchlist(movieId: movie.id ?? 0)
             
             guard !self.watchListViewModel.watchListMovies.isEmpty else {
                 self.addEmptySpaceView()

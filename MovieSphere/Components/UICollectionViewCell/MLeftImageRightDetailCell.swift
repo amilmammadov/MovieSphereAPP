@@ -7,14 +7,6 @@
 
 import UIKit
 
-protocol MLeftImageRightDetailCellProtocol {
-    
-    var posterUrl: String? { get }
-    var movieTitle: String? { get }
-    var movieVoteAverage: Double? { get }
-    var movieReleaseDate: String? { get }
-}
-
 class MLeftImageRightDetailCell: UICollectionViewCell {
     
     static let reuseId = "MLeftImageRightDetailCell"
@@ -40,11 +32,11 @@ class MLeftImageRightDetailCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setData(movie: MLeftImageRightDetailCellProtocol, genreList: [String]){
-        movieImage.loadUrl(path: movie.posterUrl ?? "")
-        movieTitle.text = movie.movieTitle
-        voteTitle.titleLabel.text = String(movie.movieVoteAverage!)
-        releaseDateTitle.titleLabel.text = movie.movieReleaseDate
+    func setData(movie: Movie, genreList: [String]){
+        movieImage.loadUrl(path: movie.posterPath ?? "")
+        movieTitle.text = movie.title
+        voteTitle.titleLabel.text = String(movie.voteAverage!)
+        releaseDateTitle.titleLabel.text = movie.releaseDate
         genreNames = genreList
     }
     

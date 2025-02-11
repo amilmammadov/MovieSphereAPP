@@ -20,7 +20,7 @@ struct MovieModel:Codable {
     }
 }
 
-struct Movie:Codable, MLeftImageRightDetailCellProtocol {
+struct Movie:Codable {
     
     let backdropPath: String?
     let genreIds: [Int]?
@@ -32,22 +32,6 @@ struct Movie:Codable, MLeftImageRightDetailCellProtocol {
     let releaseDate: String?
     let voteAverage: Double?
     let voteCount: Int?
-    
-    var posterUrl: String? {
-        posterPath
-    }
-    
-    var movieTitle: String? {
-        title
-    }
-    
-    var movieVoteAverage: Double? {
-        voteAverage
-    }
-    
-    var movieReleaseDate: String? {
-        releaseDate
-    }
     
     enum CodingKeys: String, CodingKey {
         case id, title, overview

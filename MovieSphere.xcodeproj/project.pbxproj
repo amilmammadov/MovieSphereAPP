@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5526C1282D53E6A200DFFA0C /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 5526C1272D53E6A200DFFA0C /* SkeletonView */; };
 		55820E512D4E05D000E330C7 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 55820E502D4E05D000E330C7 /* SDWebImage */; };
+		55CFF03A2D5A6B54000516CC /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 55CFF0392D5A6B54000516CC /* FirebaseCore */; };
+		55CFF03C2D5A6B54000516CC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 55CFF03B2D5A6B54000516CC /* FirebaseDatabase */; };
+		55CFF03E2D5A6B54000516CC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 55CFF03D2D5A6B54000516CC /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +72,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5526C1282D53E6A200DFFA0C /* SkeletonView in Frameworks */,
+				55CFF03C2D5A6B54000516CC /* FirebaseDatabase in Frameworks */,
+				55CFF03E2D5A6B54000516CC /* FirebaseFirestore in Frameworks */,
+				55CFF03A2D5A6B54000516CC /* FirebaseCore in Frameworks */,
 				55820E512D4E05D000E330C7 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,7 +137,9 @@
 			name = MovieSphere;
 			packageProductDependencies = (
 				55820E502D4E05D000E330C7 /* SDWebImage */,
-				5526C1272D53E6A200DFFA0C /* SkeletonView */,
+				55CFF0392D5A6B54000516CC /* FirebaseCore */,
+				55CFF03B2D5A6B54000516CC /* FirebaseDatabase */,
+				55CFF03D2D5A6B54000516CC /* FirebaseFirestore */,
 			);
 			productName = MovieSphere;
 			productReference = 552D9AFB2D47EBE8003A06C5 /* MovieSphere.app */;
@@ -219,7 +225,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */,
-				5526C1262D53E6A200DFFA0C /* XCRemoteSwiftPackageReference "SkeletonView" */,
+				55CFF0382D5A6B54000516CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 552D9AFC2D47EBE8003A06C5 /* Products */;
@@ -580,14 +586,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5526C1262D53E6A200DFFA0C /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Juanpe/SkeletonView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.31.0;
-			};
-		};
 		55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -596,18 +594,36 @@
 				minimumVersion = 5.20.0;
 			};
 		};
+		55CFF0382D5A6B54000516CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.8.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5526C1272D53E6A200DFFA0C /* SkeletonView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5526C1262D53E6A200DFFA0C /* XCRemoteSwiftPackageReference "SkeletonView" */;
-			productName = SkeletonView;
-		};
 		55820E502D4E05D000E330C7 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		55CFF0392D5A6B54000516CC /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 55CFF0382D5A6B54000516CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		55CFF03B2D5A6B54000516CC /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 55CFF0382D5A6B54000516CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		55CFF03D2D5A6B54000516CC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 55CFF0382D5A6B54000516CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

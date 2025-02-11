@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class MovieDetailViewModel {
     
@@ -13,6 +14,7 @@ class MovieDetailViewModel {
     var movieReviews: [Review]?
     var movieCast: [Actor]?
     var successCallBackForMovieDetail: (()->Void)?
+    var successCallBackForCheckMovie: (()->Void)?
     
     func getMovieDetail(id: Int){
         
@@ -54,6 +56,41 @@ class MovieDetailViewModel {
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    func addMovieToDatabase(movie: MovieDetailModel) {
+        
+        FirebaseManager.shared.addMovieToDatabase(movie: movie) { [weak self] error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print(error)
+            }
+        }
+    }
+    
+    func checkMovieInDatabase(movieId: Int) {
+        
+        FirebaseManager.shared.checKMovieInDatabase(movieId: movieId) { [weak self] error in
+            guard let self = self else { return }
+            
+            guard let error = error else {
+                self.successCallBackForCheckMovie?()
+                return
+            }
+            print(error)
+        }
+    }
+    
+    func removeMovieFromWatchlist(movieId: Int){
+        
+        FirebaseManager.shared.removeFromDatabase(movieId: movieId) { error in
+            if let error = error {
+                print(error)
+            }
+            
+            print("Movie removed")
         }
     }
 }

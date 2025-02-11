@@ -34,7 +34,7 @@ class MLeftImageRightInfoCell: UITableViewCell {
     func setData(movie: MovieDetailModel, genreList: [String]){
         movieImage.loadUrl(path: movie.posterPath ?? "")
         movieTitle.text = movie.title
-        voteTitle.titleLabel.text = String(movie.voteAverage!)
+        voteTitle.titleLabel.text = String(movie.voteAverage ?? 0)
         releaseDateTitle.titleLabel.text = movie.releaseDate
         if genreList.count == 1 {
             genresLabel.text = genreList[0]

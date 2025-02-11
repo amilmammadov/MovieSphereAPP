@@ -88,17 +88,13 @@ class MovieDetailViewController: UIViewController {
     }
     
     @objc func didMarkButtonTapped(){
-        
+    
         isMarkButtonTapped.toggle()
         
-        PersistanceManager.shared.updateWith(movie: movieDetailViewModel.movieDetail ?? MovieDetailModel(), operationType: .add) { [weak self] error in
-            
-            guard let self = self else { return }
-            guard let error = error else {
-                print("success")
-                return
-            }
-            print(error)
+        if isMarkButtonTapped {
+            movieDetailViewModel.addMovieToDatabase(movie: movieDetailViewModel.movieDetail ?? MovieDetailModel())
+        }else{
+            movieDetailViewModel.removeMovieFromWatchlist(movieId: movieId ?? 0)
         }
     }
     
@@ -109,21 +105,9 @@ class MovieDetailViewController: UIViewController {
     
     private func configureUIComponents(){
         
-        PersistanceManager.shared.retrieveFavoriteMovies { result in
-            switch result {
-            case .success(let data):
-                
-                data.forEach { movieDetail in
-                    if movieDetail.id == self.movieId {
-                        DispatchQueue.main.async {
-                            self.navigationItem.rightBarButtonItem?.image = SFSymbols.selectedMark
-                        }
-                    }
-                }
-                
-            case .failure(let error):
-                print(error)
-            }
+        movieDetailViewModel.checkMovieInDatabase(movieId: movieId ?? 0)
+        movieDetailViewModel.successCallBackForCheckMovie = {
+            self.navigationItem.rightBarButtonItem?.image = SFSymbols.selectedMark
         }
         
         backPosterImage.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
