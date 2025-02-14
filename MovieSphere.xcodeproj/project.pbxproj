@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		557C80BB2D5E6D3D0090E69D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 557C80BA2D5E6D3D0090E69D /* GoogleSignIn */; };
+		557C80BD2D5E6D3D0090E69D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 557C80BC2D5E6D3D0090E69D /* GoogleSignInSwift */; };
 		55820E512D4E05D000E330C7 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 55820E502D4E05D000E330C7 /* SDWebImage */; };
 		55CFF03A2D5A6B54000516CC /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 55CFF0392D5A6B54000516CC /* FirebaseCore */; };
 		55CFF03C2D5A6B54000516CC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 55CFF03B2D5A6B54000516CC /* FirebaseDatabase */; };
@@ -72,8 +74,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				557C80BB2D5E6D3D0090E69D /* GoogleSignIn in Frameworks */,
 				55CFF03C2D5A6B54000516CC /* FirebaseDatabase in Frameworks */,
 				55CFF03E2D5A6B54000516CC /* FirebaseFirestore in Frameworks */,
+				557C80BD2D5E6D3D0090E69D /* GoogleSignInSwift in Frameworks */,
 				55CFF03A2D5A6B54000516CC /* FirebaseCore in Frameworks */,
 				55820E512D4E05D000E330C7 /* SDWebImage in Frameworks */,
 			);
@@ -140,6 +144,8 @@
 				55CFF0392D5A6B54000516CC /* FirebaseCore */,
 				55CFF03B2D5A6B54000516CC /* FirebaseDatabase */,
 				55CFF03D2D5A6B54000516CC /* FirebaseFirestore */,
+				557C80BA2D5E6D3D0090E69D /* GoogleSignIn */,
+				557C80BC2D5E6D3D0090E69D /* GoogleSignInSwift */,
 			);
 			productName = MovieSphere;
 			productReference = 552D9AFB2D47EBE8003A06C5 /* MovieSphere.app */;
@@ -226,6 +232,7 @@
 			packageReferences = (
 				55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				55CFF0382D5A6B54000516CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				557C80B92D5E6D3D0090E69D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 552D9AFC2D47EBE8003A06C5 /* Products */;
@@ -334,8 +341,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MovieSphere/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -351,6 +360,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amil.MovieSphere;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -586,6 +596,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		557C80B92D5E6D3D0090E69D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -605,6 +623,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		557C80BA2D5E6D3D0090E69D /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 557C80B92D5E6D3D0090E69D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		557C80BC2D5E6D3D0090E69D /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 557C80B92D5E6D3D0090E69D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
 		55820E502D4E05D000E330C7 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */;

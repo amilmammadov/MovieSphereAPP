@@ -11,7 +11,7 @@ class WatchListViewModel {
     
     var watchListMovies = [MovieDetailModel]()
     var genreNames = [[String]]()
-    var successCallBack: (()->Void)?
+    var successCallBack: (([MovieDetailModel])->Void)?
     
     func getWatchListData(){
         
@@ -20,10 +20,9 @@ class WatchListViewModel {
             
             switch result {
             case .success(let data):
-                print(data)
                 self.watchListMovies = data
                 getGenreNames()
-                self.successCallBack?()
+                self.successCallBack?(self.watchListMovies)
             case .failure(let error):
                 print(error)
             }

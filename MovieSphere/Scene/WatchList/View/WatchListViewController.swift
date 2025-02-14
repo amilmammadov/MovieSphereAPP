@@ -18,32 +18,35 @@ class WatchListViewController: UIViewController {
         
         view.backgroundColor = Colors.backGround
         
+        configureWatchListCollection()
         configure()
-        configureData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        configureWatchCollection()
         configureData()
     }
     
     private func configureData(){
         
+        showLoading()
         watchListViewModel.getWatchListData()
-        watchListViewModel.successCallBack = {
-            
-            if self.watchListViewModel.watchListMovies.isEmpty {
-                self.addEmptySpaceView()
-            }else {
-                self.emptyFavoriteView.removeFromSuperview()
-                self.watchListCollection.reloadData()
+        watchListViewModel.successCallBack = { watchListMovies in
+            DispatchQueue.main.async {
+                if watchListMovies.isEmpty {
+                    self.watchListCollection.reloadData()
+                    self.addEmptyFavoriteView()
+                }else{
+                    self.emptyFavoriteView.removeFromSuperview()
+                    self.watchListCollection.reloadData()
+                }
+                self.dismissLoading()
             }
         }
     }
     
-    private func addEmptySpaceView(){
+    private func addEmptyFavoriteView(){
         
         view.addSubview(emptyFavoriteView)
         emptyFavoriteView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +59,7 @@ class WatchListViewController: UIViewController {
         ])
     }
     
-    private func configureWatchCollection(){
+    private func configureWatchListCollection(){
         
         watchListCollection.frame = view.bounds
         watchListCollection.rowHeight = 140
@@ -101,8 +104,10 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
             
             self.watchListViewModel.removeMovieFromWatchlist(movieId: movie.id ?? 0)
             
+            self.watchListViewModel.getWatchListData()
+            
             guard !self.watchListViewModel.watchListMovies.isEmpty else {
-                self.addEmptySpaceView()
+                self.addEmptyFavoriteView()
                 return
             }
         }
@@ -113,6 +118,13 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
         let swipeActionConfiguration = UISwipeActionsConfiguration(actions: [deleteAction])
         swipeActionConfiguration.performsFirstActionWithFullSwipe = false
         return swipeActionConfiguration
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let movieDetailViewController = MovieDetailViewController()
+        movieDetailViewController.movieId = watchListViewModel.watchListMovies[indexPath.row].id
+        navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 }
 

@@ -18,6 +18,9 @@ enum ConstantStrings {
     static let cast = "Cast"
     static let emptyFavoriteViewTitle = "There is no movie yet!"
     static let emptyFavoriteViewSubTitle = "Find your movie by Type title, categories, years, etc "
+    static let loginPageText = "Log in and start exploring your next favorite movie!"
+    static let signInWithGoogle = "Sign In with Google"
+    static let signInWithApple = "Sign In with Apple"
 }
 
 enum Colors {
@@ -44,6 +47,9 @@ enum SFSymbols{
     static let selectedMark = UIImage(systemName: "bookmark.fill")
     static let trash = UIImage(systemName: "trash")
     static let emptyFavoriteView = UIImage(named: "EmptyFavoriteView")
+    static let popcorn = UIImage(named: "Popcorn")
+    static let googleLogo = UIImage(named: "GoogleLogo")
+    static let appleLogo = UIImage(named: "AppleLogo")
 }
 
 enum Category:String, CaseIterable {

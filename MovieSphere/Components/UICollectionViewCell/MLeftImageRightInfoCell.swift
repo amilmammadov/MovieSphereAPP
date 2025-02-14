@@ -25,6 +25,7 @@ class MLeftImageRightInfoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configure()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -32,6 +33,7 @@ class MLeftImageRightInfoCell: UITableViewCell {
     }
     
     func setData(movie: MovieDetailModel, genreList: [String]){
+        
         movieImage.loadUrl(path: movie.posterPath ?? "")
         movieTitle.text = movie.title
         voteTitle.titleLabel.text = String(movie.voteAverage ?? 0)
@@ -60,6 +62,9 @@ class MLeftImageRightInfoCell: UITableViewCell {
         
         genresLabel.textColor = UIColor.white
         genresLabel.font = UIFont(name: MFont.poppinsRegular, size: 12)
+    }
+    
+    private func setConstraints(){
         
         movieImage.translatesAutoresizingMaskIntoConstraints = false
         movieTitle.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +93,7 @@ class MLeftImageRightInfoCell: UITableViewCell {
             movieTitle.heightAnchor.constraint(equalToConstant: 24),
           
             voteTitle.leadingAnchor.constraint(equalTo: movieTitle.leadingAnchor),
-            voteTitle.trailingAnchor.constraint(equalTo: movieTitle.trailingAnchor),
+            voteTitle.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             voteTitle.bottomAnchor.constraint(equalTo: genreImage.topAnchor, constant: -4),
             voteTitle.heightAnchor.constraint(equalToConstant: 20),
           
@@ -103,7 +108,7 @@ class MLeftImageRightInfoCell: UITableViewCell {
             genresLabel.heightAnchor.constraint(equalToConstant: 20),
             
             releaseDateTitle.leadingAnchor.constraint(equalTo: movieTitle.leadingAnchor),
-            releaseDateTitle.trailingAnchor.constraint(equalTo: movieTitle.trailingAnchor),
+            releaseDateTitle.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             releaseDateTitle.bottomAnchor.constraint(equalTo: bottomSpace.topAnchor),
             releaseDateTitle.heightAnchor.constraint(equalToConstant: 20),
            

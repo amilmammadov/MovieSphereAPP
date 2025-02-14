@@ -19,6 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.backgroundColor = Colors.backGround
         configureNavigationBar()
+        window?.rootViewController = LoginViewController()//MTabBarController()
+        window?.makeKeyAndVisible()
+    }
+    
+    func putMainPageToRoot(){
         window?.rootViewController = MTabBarController()
         window?.makeKeyAndVisible()
     }

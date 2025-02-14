@@ -51,4 +51,58 @@ extension UIViewController {
             })
         }
     }
+    
+    func presentModalViewController(_ viewController: UIViewController){
+        
+        self.addChild(viewController)
+        self.view.addSubview(viewController.view)
+        viewController.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        viewController.view.layer.cornerRadius = 16
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_ :)))
+        viewController.view.addGestureRecognizer(panGesture)
+        
+        let screenHeight = self.view.frame.size.height
+        let modalViewHeight = screenHeight - screenHeight * 0.36
+        viewController.view.frame = CGRect(x: 0, y: screenHeight, width: self.view.frame.size.width, height: screenHeight * 0.36)
+        
+        viewController.didMove(toParent: self)
+        
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+            viewController.view.frame = CGRect(x: 0, y: modalViewHeight , width: self.view.frame.size.width, height: modalViewHeight)
+        })
+    }
+    
+    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer){
+        
+        guard let modalView = self.view.subviews.last else { return }
+        
+        let translation = gesture.translation(in: self.view)
+        let velocity = gesture.velocity(in: self.view)
+        let screenHeight = self.view.frame.size.height
+        let modalViewHeight = screenHeight * 0.36
+        let originalYPositionOfModalView: CGRect = .zero
+        
+        switch gesture.state {
+        case .changed:
+            let newYPosition = max(originalYPositionOfModalView.origin.y + translation.y, screenHeight - modalViewHeight)
+            modalView.frame.origin.y = newYPosition
+        case .ended:
+            
+            if translation.y > 100 || velocity.y > 500 {
+                UIView.animate(withDuration: 0.1, animations: {
+                    modalView.frame.origin.y = screenHeight
+                }, completion: { _ in
+                    modalView.removeFromSuperview()
+                   self.children.last?.removeFromParent()
+                })
+            }else {
+                UIView.animate(withDuration: 0.3, animations: {
+                    modalView.frame.origin.y = screenHeight - modalViewHeight
+                })
+            }
+        default:
+            break
+        }
+    }
 }

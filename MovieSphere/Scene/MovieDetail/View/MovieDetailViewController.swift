@@ -107,7 +107,7 @@ class MovieDetailViewController: UIViewController {
         
         movieDetailViewModel.checkMovieInDatabase(movieId: movieId ?? 0)
         movieDetailViewModel.successCallBackForCheckMovie = {
-            self.navigationItem.rightBarButtonItem?.image = SFSymbols.selectedMark
+            self.isMarkButtonTapped = true
         }
         
         backPosterImage.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]

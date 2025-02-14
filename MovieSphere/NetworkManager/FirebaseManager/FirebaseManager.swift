@@ -53,7 +53,7 @@ class FirebaseManager {
             if let _ = error { completion(.failure(.fetchDataError)) }
             
             guard let snapshot = snapshot, !snapshot.documents.isEmpty else {
-                completion(.failure(.noData))
+                completion(.success([]))
                 return
             }
             
