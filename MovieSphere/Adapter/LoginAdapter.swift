@@ -8,9 +8,10 @@
 import Foundation
 import GoogleSignIn
 
-enum LoginType {
-    case google
-    case apple
+enum LoginType:String {
+    case google = "Google"
+    case apple = "Apple"
+    case facebook = "Facebook"
 }
 
 class LoginAdapter {
@@ -27,6 +28,8 @@ class LoginAdapter {
             loginWithGoogle(completion: completion)
         case .apple:
             loginWithApple()
+        case .facebook:
+            loginWithFacebook()
         }
     }
     
@@ -38,14 +41,21 @@ class LoginAdapter {
             guard let result = signInResult else { return }
             
             let user = UserModel(name: result.user.profile?.name ?? "",
-                                 surname: result.user.profile?.familyName ?? "",
-                                 email: result.user.profile?.email ?? "")
-            
-            completion(.success(user))
+                                 email: result.user.profile?.email ?? "",
+                                 profileImageUrl: result.user.profile?.imageURL(withDimension: 200)?.absoluteString ?? "")
+            do{
+                let encodedData = try JSONEncoder().encode(user)
+                UserDefaults.standard.set(encodedData, forKey: LoginType.google.rawValue)
+                completion(.success(user))
+            }catch{
+                completion(.failure(.unableToLogin))
+            }
           }
     }
     
     private func loginWithApple(){}
+    
+    private func loginWithFacebook(){}
 }
 
 

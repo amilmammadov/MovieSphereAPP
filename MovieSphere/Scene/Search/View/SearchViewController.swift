@@ -85,7 +85,14 @@ class SearchViewController: UIViewController {
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    @objc func informationButtonTapped(){}
+    @objc func informationButtonTapped(){
+        
+        let alertController = UIAlertController(title: nil, message: ConstantStrings.searchInformation, preferredStyle: .actionSheet)
+        alertController.view.tintColor = .red
+        let alertAction = UIAlertAction(title: "Close", style: .cancel)
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true)
+    }
     
     private func addSubviews(){
         view.addSubviews(searchField, searchCollection)

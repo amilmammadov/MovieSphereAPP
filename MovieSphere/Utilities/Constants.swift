@@ -19,8 +19,10 @@ enum ConstantStrings {
     static let emptyFavoriteViewTitle = "There is no movie yet!"
     static let emptyFavoriteViewSubTitle = "Find your movie by Type title, categories, years, etc "
     static let loginPageText = "Log in and start exploring your next favorite movie!"
-    static let signInWithGoogle = "Sign In with Google"
-    static let signInWithApple = "Sign In with Apple"
+    static let continueWithGoogle = "Continue with Google"
+    static let continueWithApple = "Continue with Apple"
+    static let continueWithFacebook = "Continue with Facebook"
+    static let searchInformation = "You can search any movie by type title, categories, years, etc "
 }
 
 enum Colors {
@@ -30,7 +32,7 @@ enum Colors {
     static let starColor = UIColor(named: "StarColor")
     static let voteAverageBackground = UIColor(named: "VoteAverageBackground")
     static let reviewerRating = UIColor(named: "ReviewerRating")
-    
+    static let facebookLoginBackground = UIColor(named: "FacebookLogin")
 }
 
 enum SFSymbols{
@@ -50,6 +52,8 @@ enum SFSymbols{
     static let popcorn = UIImage(named: "Popcorn")
     static let googleLogo = UIImage(named: "GoogleLogo")
     static let appleLogo = UIImage(named: "AppleLogo")
+    static let facebookLogo = UIImage(named: "FacebookLogo")
+    static let logout = UIImage(systemName: "iphone.and.arrow.right.outward")
 }
 
 enum Category:String, CaseIterable {

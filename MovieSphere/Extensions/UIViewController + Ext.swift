@@ -63,13 +63,14 @@ extension UIViewController {
         viewController.view.addGestureRecognizer(panGesture)
         
         let screenHeight = self.view.frame.size.height
-        let modalViewHeight = screenHeight - screenHeight * 0.36
-        viewController.view.frame = CGRect(x: 0, y: screenHeight, width: self.view.frame.size.width, height: screenHeight * 0.36)
+        let modalViewHeight = screenHeight * 0.4
+        let positionY = screenHeight - modalViewHeight
+        viewController.view.frame = CGRect(x: 0, y: screenHeight, width: self.view.frame.size.width, height: modalViewHeight)
         
         viewController.didMove(toParent: self)
         
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
-            viewController.view.frame = CGRect(x: 0, y: modalViewHeight , width: self.view.frame.size.width, height: modalViewHeight)
+            viewController.view.frame = CGRect(x: 0, y: positionY , width: self.view.frame.size.width, height: modalViewHeight)
         })
     }
     
@@ -80,7 +81,7 @@ extension UIViewController {
         let translation = gesture.translation(in: self.view)
         let velocity = gesture.velocity(in: self.view)
         let screenHeight = self.view.frame.size.height
-        let modalViewHeight = screenHeight * 0.36
+        let modalViewHeight = screenHeight * 0.4
         let originalYPositionOfModalView: CGRect = .zero
         
         switch gesture.state {

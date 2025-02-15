@@ -16,7 +16,7 @@ class MTabBarController: UITabBarController {
     private func configure(){
         
         view.backgroundColor = Colors.backGround
-        viewControllers = [homeViewControllerConfigure(), searchViewControllerConfigure(), watchListViewControllerConfigure()]
+        viewControllers = [homeViewControllerConfigure(), searchViewControllerConfigure(), watchListViewControllerConfigure(), profileViewControllerConfigure()]
         
         let tabbarAppearance = UITabBarAppearance()
         tabbarAppearance.configureWithOpaqueBackground()
@@ -40,8 +40,16 @@ class MTabBarController: UITabBarController {
     private func watchListViewControllerConfigure()->UINavigationController{
         let watchListViewController = WatchListViewController()
         watchListViewController.title = "Watch List"
-        watchListViewController.tabBarItem = UITabBarItem(title: "Watch List", image: UIImage(named: "WatchList"), tag: 0)
+        watchListViewController.tabBarItem = UITabBarItem(title: "Watch List", image: UIImage(named: "WatchList"), tag: 2)
         let watchListNavigationController = UINavigationController(rootViewController: watchListViewController)
         return watchListNavigationController
+    }
+    
+    private func profileViewControllerConfigure()->UINavigationController {
+        let profileViewController = ProfileViewController()
+        profileViewController.title = "Profile"
+        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 3)
+        let profileNavigationController = UINavigationController(rootViewController: profileViewController)
+        return profileNavigationController
     }
 }

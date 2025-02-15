@@ -15,4 +15,10 @@ extension UIImageView {
             self.sd_setImage(with: url)
         }
     }
+    
+    func loadProfile(path: String){
+        if let url = URL(string: path) {
+            self.sd_setImage(with: url)
+        }
+    }
 }

@@ -44,7 +44,6 @@ class MReviewCell: UICollectionViewCell {
         profileImageView.layer.cornerRadius = 22
         profileImageView.clipsToBounds = true
         
-        
         ratingByReviewer.textColor = Colors.reviewerRating
         
         reviewTitle.numberOfLines = 4

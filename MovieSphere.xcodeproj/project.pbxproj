@@ -10,6 +10,10 @@
 		557C80BB2D5E6D3D0090E69D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 557C80BA2D5E6D3D0090E69D /* GoogleSignIn */; };
 		557C80BD2D5E6D3D0090E69D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 557C80BC2D5E6D3D0090E69D /* GoogleSignInSwift */; };
 		55820E512D4E05D000E330C7 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 55820E502D4E05D000E330C7 /* SDWebImage */; };
+		558458792D5FBDE0001EA1B0 /* FacebookAEM in Frameworks */ = {isa = PBXBuildFile; productRef = 558458782D5FBDE0001EA1B0 /* FacebookAEM */; };
+		5584587B2D5FBDE0001EA1B0 /* FacebookBasics in Frameworks */ = {isa = PBXBuildFile; productRef = 5584587A2D5FBDE0001EA1B0 /* FacebookBasics */; };
+		5584587D2D5FBDE0001EA1B0 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5584587C2D5FBDE0001EA1B0 /* FacebookCore */; };
+		5584587F2D5FBDE0001EA1B0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 5584587E2D5FBDE0001EA1B0 /* FacebookLogin */; };
 		55CFF03A2D5A6B54000516CC /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 55CFF0392D5A6B54000516CC /* FirebaseCore */; };
 		55CFF03C2D5A6B54000516CC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 55CFF03B2D5A6B54000516CC /* FirebaseDatabase */; };
 		55CFF03E2D5A6B54000516CC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 55CFF03D2D5A6B54000516CC /* FirebaseFirestore */; };
@@ -74,11 +78,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5584587F2D5FBDE0001EA1B0 /* FacebookLogin in Frameworks */,
 				557C80BB2D5E6D3D0090E69D /* GoogleSignIn in Frameworks */,
+				558458792D5FBDE0001EA1B0 /* FacebookAEM in Frameworks */,
 				55CFF03C2D5A6B54000516CC /* FirebaseDatabase in Frameworks */,
 				55CFF03E2D5A6B54000516CC /* FirebaseFirestore in Frameworks */,
 				557C80BD2D5E6D3D0090E69D /* GoogleSignInSwift in Frameworks */,
+				5584587B2D5FBDE0001EA1B0 /* FacebookBasics in Frameworks */,
 				55CFF03A2D5A6B54000516CC /* FirebaseCore in Frameworks */,
+				5584587D2D5FBDE0001EA1B0 /* FacebookCore in Frameworks */,
 				55820E512D4E05D000E330C7 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +154,10 @@
 				55CFF03D2D5A6B54000516CC /* FirebaseFirestore */,
 				557C80BA2D5E6D3D0090E69D /* GoogleSignIn */,
 				557C80BC2D5E6D3D0090E69D /* GoogleSignInSwift */,
+				558458782D5FBDE0001EA1B0 /* FacebookAEM */,
+				5584587A2D5FBDE0001EA1B0 /* FacebookBasics */,
+				5584587C2D5FBDE0001EA1B0 /* FacebookCore */,
+				5584587E2D5FBDE0001EA1B0 /* FacebookLogin */,
 			);
 			productName = MovieSphere;
 			productReference = 552D9AFB2D47EBE8003A06C5 /* MovieSphere.app */;
@@ -233,6 +245,7 @@
 				55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				55CFF0382D5A6B54000516CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				557C80B92D5E6D3D0090E69D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				558458772D5FBDE0001EA1B0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 552D9AFC2D47EBE8003A06C5 /* Products */;
@@ -612,6 +625,14 @@
 				minimumVersion = 5.20.0;
 			};
 		};
+		558458772D5FBDE0001EA1B0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 14.1.0;
+			};
+		};
 		55CFF0382D5A6B54000516CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -637,6 +658,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 55820E4F2D4E05D000E330C7 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		558458782D5FBDE0001EA1B0 /* FacebookAEM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 558458772D5FBDE0001EA1B0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookAEM;
+		};
+		5584587A2D5FBDE0001EA1B0 /* FacebookBasics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 558458772D5FBDE0001EA1B0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookBasics;
+		};
+		5584587C2D5FBDE0001EA1B0 /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 558458772D5FBDE0001EA1B0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		5584587E2D5FBDE0001EA1B0 /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 558458772D5FBDE0001EA1B0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
 		};
 		55CFF0392D5A6B54000516CC /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;

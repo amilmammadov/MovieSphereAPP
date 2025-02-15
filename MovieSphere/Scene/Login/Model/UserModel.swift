@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct UserModel {
+struct UserModel:Codable {
     let name:String
-    let surname:String
     let email:String
+    let profileImageUrl: String?
 }

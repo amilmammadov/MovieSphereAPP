@@ -9,8 +9,10 @@ import UIKit
 
 class LoginOptionsViewController: UIViewController {
     
-    let googleLogin = MLoginOptionView(image: SFSymbols.googleLogo ?? UIImage(), title: ConstantStrings.signInWithGoogle, color: .white, textColor: .black)
-    let appleLogin = MLoginOptionView(image: SFSymbols.appleLogo ?? UIImage(), title: ConstantStrings.signInWithApple, color: .black, textColor: .white)
+    let googleLogin = MLoginOptionView(image: SFSymbols.googleLogo ?? UIImage(), title: ConstantStrings.continueWithGoogle, color: .white, textColor: .black)
+    let appleLogin = MLoginOptionView(image: SFSymbols.appleLogo ?? UIImage(), title: ConstantStrings.continueWithApple, color: .black, textColor: .white)
+    let facebookLogin = MLoginOptionView(image: SFSymbols.facebookLogo ?? UIImage(), title: ConstantStrings.continueWithFacebook, color: Colors.facebookLoginBackground ?? UIColor(), textColor: .white)
+    
     
     let loginViewModel = LoginViewModel()
     
@@ -26,13 +28,17 @@ class LoginOptionsViewController: UIViewController {
     
     private func configure(){
         
-        let panGestureForGoogleLogin = UITapGestureRecognizer(target: self, action: #selector(googleLoginViewTapped))
-        googleLogin.addGestureRecognizer(panGestureForGoogleLogin)
+        let tapGestureForGoogleLogin = UITapGestureRecognizer(target: self, action: #selector(googleLoginViewTapped))
+        googleLogin.addGestureRecognizer(tapGestureForGoogleLogin)
         googleLogin.isUserInteractionEnabled = true
         
-        let panGestureForAppleLogin = UITapGestureRecognizer(target: self, action: #selector(appleLoginViewTapped))
-        appleLogin.addGestureRecognizer(panGestureForAppleLogin)
+        let tapGestureForAppleLogin = UITapGestureRecognizer(target: self, action: #selector(appleLoginViewTapped))
+        appleLogin.addGestureRecognizer(tapGestureForAppleLogin)
         appleLogin.isUserInteractionEnabled = true
+        
+        let tapGestureForFacebookLogin = UITapGestureRecognizer(target: self, action: #selector(facebookLoginViewTapped))
+        facebookLogin.addGestureRecognizer(tapGestureForFacebookLogin)
+        facebookLogin.isUserInteractionEnabled = true
     }
     
     @objc func googleLoginViewTapped(){
@@ -51,25 +57,33 @@ class LoginOptionsViewController: UIViewController {
         loginViewModel.login(loginType: .apple)
     }
     
+    @objc func facebookLoginViewTapped(){
+        loginViewModel.login(loginType: .facebook)
+    }
+    
     private func addSubviews(){
         
-        view.addSubviews(googleLogin, appleLogin)
+        view.addSubviews(googleLogin, appleLogin, facebookLogin)
         
         googleLogin.translatesAutoresizingMaskIntoConstraints = false
         appleLogin.translatesAutoresizingMaskIntoConstraints = false
-        
-        let padding :CGFloat = (view.frame.size.height * 0.5) - ((view.frame.size.height * 0.32) - 26)
+        facebookLogin.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            googleLogin.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -padding),
+            googleLogin.bottomAnchor.constraint(equalTo: appleLogin.topAnchor, constant: -20),
             googleLogin.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             googleLogin.heightAnchor.constraint(equalToConstant: 52),
-            googleLogin.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.72),
+            googleLogin.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.76),
             
-            appleLogin.topAnchor.constraint(equalTo: googleLogin.bottomAnchor, constant: 20),
+            appleLogin.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             appleLogin.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             appleLogin.heightAnchor.constraint(equalToConstant: 52),
-            appleLogin.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.72)
+            appleLogin.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.76),
+            
+            facebookLogin.topAnchor.constraint(equalTo: appleLogin.bottomAnchor, constant: 20),
+            facebookLogin.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            facebookLogin.heightAnchor.constraint(equalToConstant: 52),
+            facebookLogin.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.76)
         ])
     }
 }
