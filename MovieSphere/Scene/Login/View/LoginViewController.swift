@@ -50,9 +50,6 @@ class LoginViewController: UIViewController {
     private func addSubviews(){
         
         view.addSubviews(posterImage, titleLabel, continueButton)
-        posterImage.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        continueButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.bounds.height * 0.16),

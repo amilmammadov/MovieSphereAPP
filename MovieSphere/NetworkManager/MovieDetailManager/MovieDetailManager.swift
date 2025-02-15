@@ -14,16 +14,16 @@ class MovieDetailManager {
     
     func getMovieDetail(id: Int, completion: @escaping ((Result<MovieDetailModel, NetworkError>)->Void)){
         
-        NetworkManager.shared.request(model: MovieDetailModel.self, url: NetworkHelper.shared.urlConfig(path: "movie/\(id)", language: language ?? "eng"), completion: completion)
+        NetworkManager.shared.request(model: MovieDetailModel.self, url: MovieDetailEndPoints.movieDetail(movieId: id).path, completion: completion)
     }
     
     func getReviesForMovie(id: Int, completion: @escaping ((Result<ReviewsModel, NetworkError>)->Void)){
         
-        NetworkManager.shared.request(model: ReviewsModel.self, url: NetworkHelper.shared.urlConfig(path: "movie/\(id)/reviews", language: language ?? "eng"), completion: completion)
+        NetworkManager.shared.request(model: ReviewsModel.self, url: MovieDetailEndPoints.movieReviews(movieId: id).path, completion: completion)
     }
     
     func getMovieCast(id: Int, completion: @escaping ((Result<MovieCastModel, NetworkError>)->Void)){
         
-        NetworkManager.shared.request(model: MovieCastModel.self, url: NetworkHelper.shared.urlConfig(path: "movie/\(id)/credits", language: language ?? "eng"), completion: completion)
+        NetworkManager.shared.request(model: MovieCastModel.self, url: MovieDetailEndPoints.movieCredits(movieId: id).path, completion: completion)
     }
 }

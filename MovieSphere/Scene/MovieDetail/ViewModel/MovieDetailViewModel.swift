@@ -13,8 +13,14 @@ class MovieDetailViewModel {
     var movieDetail: MovieDetailModel?
     var movieReviews: [Review]?
     var movieCast: [Actor]?
+    
     var successCallBackForMovieDetail: (()->Void)?
     var successCallBackForCheckMovie: (()->Void)?
+    
+    var errorCallBackForMovieDetail: ((String)->Void)?
+    var errorsCallBackForCheckMovie: ((String)->Void)?
+    var errorCallBackWhenAddingDatabase: ((String)->Void)?
+    var errorCallBackForRemoveFromDatabase: ((String)->Void)?
     
     func getMovieDetail(id: Int){
         
@@ -23,10 +29,10 @@ class MovieDetailViewModel {
             
             switch result {
             case .success(let data):
-                movieDetail = data
-                successCallBackForMovieDetail?()
+                self.movieDetail = data
+                self.successCallBackForMovieDetail?()
             case .failure(let error):
-                print(error)
+                self.errorCallBackForMovieDetail?(error.rawValue)
             }
         }
     }
@@ -38,9 +44,9 @@ class MovieDetailViewModel {
             
             switch result {
             case .success(let data):
-                movieReviews = data.results
+                self.movieReviews = data.results
             case .failure(let error):
-                print(error)
+                break
             }
         }
     }
@@ -52,9 +58,9 @@ class MovieDetailViewModel {
             
             switch result {
             case .success(let data):
-                movieCast = data.cast ?? []
+                self.movieCast = data.cast ?? []
             case .failure(let error):
-                print(error)
+                break
             }
         }
     }
@@ -65,7 +71,7 @@ class MovieDetailViewModel {
             guard let self = self else { return }
             
             if let error = error {
-                print(error)
+                self.errorCallBackWhenAddingDatabase?(error.rawValue)
             }
         }
     }
@@ -79,18 +85,17 @@ class MovieDetailViewModel {
                 self.successCallBackForCheckMovie?()
                 return
             }
-            print(error)
         }
     }
     
     func removeMovieFromWatchlist(movieId: Int){
         
-        FirebaseManager.shared.removeFromDatabase(movieId: movieId) { error in
-            if let error = error {
-                print(error)
-            }
+        FirebaseManager.shared.removeFromDatabase(movieId: movieId) { [weak self] error in
+            guard let self = self else { return }
             
-            print("Movie removed")
+            if let error = error {
+                self.errorCallBackForRemoveFromDatabase?(error.rawValue)
+            }
         }
     }
 }

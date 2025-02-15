@@ -32,8 +32,9 @@ class MAlertViewController: UIViewController {
         view.addSubview(messageLabel)
         
         messageLabel.numberOfLines = 2
-        messageLabel.backgroundColor = .systemRed.withAlphaComponent(0.8)
+        messageLabel.backgroundColor = .systemRed
         messageLabel.layer.cornerRadius = 16
+        messageLabel.clipsToBounds = true
         
         NSLayoutConstraint.activate([
             messageLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),

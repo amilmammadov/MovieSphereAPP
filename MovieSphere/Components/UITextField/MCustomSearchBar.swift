@@ -24,7 +24,7 @@ class MCustomSearchBar: MTextField {
         
         textColor = .white
         
-        placeholder = ConstantStrings.searchPlaceHolder
+        placeholder = "search_placeholder".localize
         
         let attributes: [NSAttributedString.Key:Any] = [.foregroundColor: Colors.seacrhIcon ?? UIColor()]
         attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: attributes)

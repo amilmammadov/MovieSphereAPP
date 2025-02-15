@@ -11,7 +11,7 @@ class SearchViewController: UIViewController {
 
     let searchField = MCustomSearchBar()
     var searchCollection:UICollectionView!
-    let emptySearchView = MEmptySpaceView(image: SFSymbols.emptySearchView ?? UIImage(), title: ConstantStrings.emptySearchViewTitle, subTitle: ConstantStrings.emptySearchViewSubTitle)
+    let emptySearchView = MEmptySpaceView(image: SFSymbols.emptySearchView ?? UIImage(), title: "empty_space_view_title".localize, subTitle: "empty_space_view_subtitle".localize)
     
     var searchViewModel = SearchViewModel()
 
@@ -34,6 +34,11 @@ class SearchViewController: UIViewController {
                 self.searchCollection.reloadData()
                 self.dismissLoading()
             }
+        }
+        
+        searchViewModel.errorCallBackForSearchPageDefaultMovies = { [weak self] error in
+            guard let self = self else { return }
+            self.presentAlertOnMainThread(with: error)
         }
     }
     // MARK - Add target to searhfield to search spesifik movie
@@ -64,6 +69,11 @@ class SearchViewController: UIViewController {
                     }
                 }
             }
+            
+            searchViewModel.errorCallBackForSearchedMovie = { [weak self] error in
+                guard let self = self else { return }
+                self.presentAlertOnMainThread(with: error)
+            }
         }
     }
     
@@ -87,9 +97,9 @@ class SearchViewController: UIViewController {
     
     @objc func informationButtonTapped(){
         
-        let alertController = UIAlertController(title: nil, message: ConstantStrings.searchInformation, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: "search_information".localize, preferredStyle: .actionSheet)
         alertController.view.tintColor = .red
-        let alertAction = UIAlertAction(title: "Close", style: .cancel)
+        let alertAction = UIAlertAction(title: "close".localize, style: .cancel)
         alertController.addAction(alertAction)
         self.present(alertController, animated: true)
     }
@@ -113,9 +123,6 @@ class SearchViewController: UIViewController {
     }
     
     private func setConstraints(){
-        
-        searchField.translatesAutoresizingMaskIntoConstraints = false
-        searchCollection.translatesAutoresizingMaskIntoConstraints = false
         
         let padding: CGFloat = 24
         

@@ -10,6 +10,7 @@ import Foundation
 class ProfileViewModel {
 
     var successCallBackForProfile: ((UserModel)->Void)?
+    var errorCallBackForProfile: ((String)->Void)?
     
     func retrieveData(){
         
@@ -19,7 +20,7 @@ class ProfileViewModel {
             let user = try decoder.decode(UserModel.self, from: userData)
             successCallBackForProfile?(user)
         }catch{
-            print("error")
+            errorCallBackForProfile?("The problem occured when trying to get profile data!")
         }
     }
 }

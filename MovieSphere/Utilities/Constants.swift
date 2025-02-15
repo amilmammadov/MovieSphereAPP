@@ -57,8 +57,14 @@ enum SFSymbols{
 }
 
 enum Category:String, CaseIterable {
-    case nowPlaying = "Now Playing"
-    case upComing = "Upcoming"
-    case topRated = "Top Rated"
-    case popular = "Popular"
+    case nowPlaying = "now_playing"
+    case upComing = "upcoming"
+    case topRated = "top_rated"
+    case popular = "popular"
+}
+
+enum Language: String {
+    case eng = "en"
+    case rus = "ru"
+    case key = "language"
 }

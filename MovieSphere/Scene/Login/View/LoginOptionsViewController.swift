@@ -50,24 +50,33 @@ class LoginOptionsViewController: UIViewController {
                 sceneDelegate.putMainPageToRoot()
             }
         }
+        loginViewModel.errorCallBackForLogin = { [weak self] error in
+            guard let self = self else { return }
+            self.presentAlertOnMainThread(with: error)
+        }
     }
     
     @objc func appleLoginViewTapped(){
         
+        loginViewModel.errorCallBackForLogin = { [weak self] error in
+            guard let self = self else { return }
+            self.presentAlertOnMainThread(with: error)
+        }
         loginViewModel.login(loginType: .apple)
     }
     
     @objc func facebookLoginViewTapped(){
+        
+        loginViewModel.errorCallBackForLogin = { [weak self] error in
+            guard let self = self else { return }
+            self.presentAlertOnMainThread(with: error)
+        }
         loginViewModel.login(loginType: .facebook)
     }
     
     private func addSubviews(){
         
         view.addSubviews(googleLogin, appleLogin, facebookLogin)
-        
-        googleLogin.translatesAutoresizingMaskIntoConstraints = false
-        appleLogin.translatesAutoresizingMaskIntoConstraints = false
-        facebookLogin.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             googleLogin.bottomAnchor.constraint(equalTo: appleLogin.topAnchor, constant: -20),

@@ -48,9 +48,6 @@ class MLoginOptionView: UIView {
         
         addSubviews(imageView,titleLabel)
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),

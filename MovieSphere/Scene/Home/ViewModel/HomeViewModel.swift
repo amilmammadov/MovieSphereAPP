@@ -15,6 +15,9 @@ class HomeViewModel {
     var successCallBackForHorizontalCMovies: (()->Void)?
     var successCallBackForSingleCategoryMovies: (()->Void)?
     
+    var errorCallBackForHorizontalCMovies: ((String)->Void)?
+    var errroCallBackForSingleCategoryMovies: ((String)->Void)?
+    
     var horizontalMoviesPage: Int = 1
     var horizontalCollectionMovieModel: MovieModel?
     var verticalMoviesPage: Int = 1
@@ -30,7 +33,7 @@ class HomeViewModel {
                 self.horizontalCollectionMovies.append(contentsOf: data.results ?? [])
                 successCallBackForHorizontalCMovies?()
             case .failure(let error):
-                print(error)
+                self.errorCallBackForHorizontalCMovies?(error.rawValue)
             }
         }
     }
@@ -51,9 +54,9 @@ class HomeViewModel {
             switch result {
             case .success(let data):
                 self.singleCategoryCollectionMovies.append(contentsOf: data.results ?? [])
-                successCallBackForSingleCategoryMovies?()
+                self.successCallBackForSingleCategoryMovies?()
             case .failure(let error):
-                print(error)
+                self.errroCallBackForSingleCategoryMovies?(error.rawValue)
             }
         }
     }

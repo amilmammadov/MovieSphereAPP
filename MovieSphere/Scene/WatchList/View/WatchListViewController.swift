@@ -11,7 +11,7 @@ class WatchListViewController: UIViewController {
     
     let watchListCollection = UITableView()
     let watchListViewModel = WatchListViewModel()
-    let emptyFavoriteView = MEmptySpaceView(image: SFSymbols.emptyFavoriteView ?? UIImage(), title: ConstantStrings.emptyFavoriteViewTitle, subTitle: ConstantStrings.emptyFavoriteViewSubTitle)
+    let emptyFavoriteView = MEmptySpaceView(image: SFSymbols.emptyFavoriteView ?? UIImage(), title: "empty_favorite_view_title".localize, subTitle: "empty_favorite_view_subtitle".localize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +43,11 @@ class WatchListViewController: UIViewController {
                 }
                 self.dismissLoading()
             }
+        }
+        
+        watchListViewModel.errorCallBackForWatchListData = { [weak self] error in
+            guard let self = self else { return }
+            self.presentAlertOnMainThread(with: error)
         }
     }
     
@@ -97,12 +102,18 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        let deleteAction = UIContextualAction(style: .normal, title: nil) { _,_,_ in
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] _,_,_ in
+            guard let self = self else { return }
+            
             let movie = self.watchListViewModel.watchListMovies[indexPath.row]
             self.watchListViewModel.watchListMovies.remove(at: indexPath.row)
             self.watchListCollection.deleteRows(at: [indexPath], with: .left)
             
             self.watchListViewModel.removeMovieFromWatchlist(movieId: movie.id ?? 0)
+            self.watchListViewModel.errorCallBackForRemoveMovie = { [weak self] error in
+                guard let self = self else { return }
+                self.presentAlertOnMainThread(with: error)
+            }
             
             self.watchListViewModel.getWatchListData()
             

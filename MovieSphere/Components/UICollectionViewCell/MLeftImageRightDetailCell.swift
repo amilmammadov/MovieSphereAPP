@@ -64,13 +64,6 @@ class MLeftImageRightDetailCell: UICollectionViewCell {
         movieTitle.textColor = .white
         movieTitle.font = UIFont(name: MFont.poppinsRegular, size: 16)
         
-        movieImage.translatesAutoresizingMaskIntoConstraints = false
-        movieTitle.translatesAutoresizingMaskIntoConstraints = false
-        genreImage.translatesAutoresizingMaskIntoConstraints = false
-        voteTitle.translatesAutoresizingMaskIntoConstraints = false
-        releaseDateTitle.translatesAutoresizingMaskIntoConstraints = false
-        genreCollection.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             movieImage.topAnchor.constraint(equalTo: self.topAnchor),
             movieImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),

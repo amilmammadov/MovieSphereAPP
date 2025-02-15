@@ -53,11 +53,6 @@ class MReviewCell: UICollectionViewCell {
         
         addSubviews(profileImageView, reviewerTitle, ratingByReviewer, reviewTitle)
         
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        reviewTitle.translatesAutoresizingMaskIntoConstraints = false
-        reviewerTitle.translatesAutoresizingMaskIntoConstraints = false
-        ratingByReviewer.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: self.topAnchor),
             profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),

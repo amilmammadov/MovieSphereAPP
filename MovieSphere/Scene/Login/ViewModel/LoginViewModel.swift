@@ -11,6 +11,7 @@ class LoginViewModel {
     
     var loginAdapter: LoginAdapter?
     var successCallBackForLogin: ((UserModel)->Void)?
+    var errorCallBackForLogin: ((String)->Void)?
     
     func login(loginType: LoginType){
         
@@ -21,7 +22,7 @@ class LoginViewModel {
             case .success(let user):
                 self.successCallBackForLogin?(user)
             case .failure(let error):
-                print(error)
+                self.errorCallBackForLogin?(error.rawValue)
             }
         }
     }

@@ -8,5 +8,6 @@
 import Foundation
 
 enum LoginAdapterError:String, Error {
-    case unableToLogin = "The problem occured when trying to login. Please try again!"
+    case unableToLogin = "If you want to login with Google. Please try again!"
+    case doNotHaveAnAccount = "I don't have a developer account to connect this login type."
 }

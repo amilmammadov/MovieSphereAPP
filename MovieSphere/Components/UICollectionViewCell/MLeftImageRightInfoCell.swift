@@ -66,15 +66,6 @@ class MLeftImageRightInfoCell: UITableViewCell {
     
     private func setConstraints(){
         
-        movieImage.translatesAutoresizingMaskIntoConstraints = false
-        movieTitle.translatesAutoresizingMaskIntoConstraints = false
-        genreImage.translatesAutoresizingMaskIntoConstraints = false
-        voteTitle.translatesAutoresizingMaskIntoConstraints = false
-        releaseDateTitle.translatesAutoresizingMaskIntoConstraints = false
-        genresLabel.translatesAutoresizingMaskIntoConstraints = false
-        topSpace.translatesAutoresizingMaskIntoConstraints = false
-        bottomSpace.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             topSpace.topAnchor.constraint(equalTo: self.topAnchor),
             topSpace.leadingAnchor.constraint(equalTo: self.leadingAnchor),

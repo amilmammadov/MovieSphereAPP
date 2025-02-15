@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    let titleLabel = MTitleLabel(text: ConstantStrings.homePageTitle, font: MFont.poppinsSemiBold, size: 18,textAlignment: .left)
+    let titleLabel = MTitleLabel(text: "home_page_title".localize, font: MFont.poppinsSemiBold, size: 18,textAlignment: .left)
     let searchField = MCustomSearchBar()
     var horizontalMovieCollection: UICollectionView!
     var categoryCollection: UICollectionView!
@@ -43,14 +43,25 @@ class HomeViewController: UIViewController {
         homeViewModel.successCallBackForHorizontalCMovies = {
             DispatchQueue.main.async {
                 self.horizontalMovieCollection.reloadData()
-               self.dismissLoading()
+                self.dismissLoading()
             }
         }
+        
+        homeViewModel.errorCallBackForHorizontalCMovies = { [weak self] error in
+            guard let self = self else { return }
+            self.presentAlertOnMainThread(with: error)
+        }
+        
         homeViewModel.successCallBackForSingleCategoryMovies = {
             DispatchQueue.main.async {
                 self.movieCollectionForSingleCategory.reloadData()
                 self.dismissLoading()
             }
+        }
+        
+        homeViewModel.errroCallBackForSingleCategoryMovies = { [weak self] error in
+            guard let self = self else { return }
+            self.presentAlertOnMainThread(with: error)
         }
     }
     
@@ -176,7 +187,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return cell
         case categoryCollection:
             let cell = categoryCollection.dequeueReusableCell(withReuseIdentifier: MCategoryCell.reuseId, for: indexPath) as! MCategoryCell
-            cell.setTitle(movieCategories[indexPath.item])
+            cell.setTitle(movieCategories[indexPath.item].localize)
             return cell
         case movieCollectionForSingleCategory:
             let cell = movieCollectionForSingleCategory.dequeueReusableCell(withReuseIdentifier: MSingleImageCell.reuseId, for: indexPath) as! MSingleImageCell
@@ -276,10 +287,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     private func setConstraints(){
         
-        horizontalMovieCollection.translatesAutoresizingMaskIntoConstraints = false
-        categoryCollection.translatesAutoresizingMaskIntoConstraints = false
-        movieCollectionForSingleCategory.translatesAutoresizingMaskIntoConstraints = false
-        
         let padding: CGFloat = 24
         
         NSLayoutConstraint.activate([
@@ -318,7 +325,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         case horizontalMovieCollection:
             return CGSize(width: 144, height: 212)
         case categoryCollection:
-            return CGSize(width: 92, height: 48)
+            return CGSize(width: movieCategories[indexPath.row].count * 12 , height: 48)
         case movieCollectionForSingleCategory:
             return CGSize(width: ( view.frame.size.width - 72 ) / 3, height: 148)
         default:

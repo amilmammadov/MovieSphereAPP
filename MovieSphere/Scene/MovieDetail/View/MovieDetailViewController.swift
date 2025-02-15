@@ -19,9 +19,9 @@ class MovieDetailViewController: UIViewController {
     let separatorView = MSeperatorView()
     let runtimeAndCalendarStack = UIStackView()
     
-    let aboutMovieButton = MCustomButton(title: ConstantStrings.aboutMovie, font: MFont.poppinsMedium, size: 14)
-    let reviewsButton = MCustomButton(title: ConstantStrings.reviews, font: MFont.poppinsMedium, size: 14)
-    let castButton = MCustomButton(title: ConstantStrings.cast, font: MFont.poppinsMedium, size: 14)
+    let aboutMovieButton = MCustomButton(title: "about_movie".localize, font: MFont.poppinsMedium, size: 14)
+    let reviewsButton = MCustomButton(title: "reviews".localize, font: MFont.poppinsMedium, size: 14)
+    let castButton = MCustomButton(title: "cast".localize, font: MFont.poppinsMedium, size: 14)
     let aboutReviewsCastStack = UIStackView()
     
     let containerView = UIView()
@@ -59,7 +59,7 @@ class MovieDetailViewController: UIViewController {
                 self.posterImage.loadUrl(path: self.movieDetailViewModel.movieDetail?.posterPath ?? "")
                 self.titleLabel.text = self.movieDetailViewModel.movieDetail?.title
                 self.releaseYearView.titleLabel.text = self.movieDetailViewModel.movieDetail?.releaseDate
-                self.runtimeView.titleLabel.text = String(self.movieDetailViewModel.movieDetail?.runtime ?? 0) + " Minutes"
+                self.runtimeView.titleLabel.text = String(self.movieDetailViewModel.movieDetail?.runtime ?? 0) + "minutes".localize
                 self.setAboutMovieWhenViewDidload()
                 self.dismissLoading()
             }
@@ -82,7 +82,7 @@ class MovieDetailViewController: UIViewController {
     private func configureMovieDetailViewController(){
         
         view.backgroundColor = Colors.backGround
-        title = "Detail"
+        title = "detail".localize
         let rightBarButtonItem = UIBarButtonItem(image: SFSymbols.unselectedMark, style: .plain, target: self, action: #selector(didMarkButtonTapped))
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
@@ -93,8 +93,16 @@ class MovieDetailViewController: UIViewController {
         
         if isMarkButtonTapped {
             movieDetailViewModel.addMovieToDatabase(movie: movieDetailViewModel.movieDetail ?? MovieDetailModel())
+            movieDetailViewModel.errorCallBackWhenAddingDatabase = { [weak self] error in
+                guard let self = self else { return }
+                self.presentAlertOnMainThread(with: error)
+            }
         }else{
             movieDetailViewModel.removeMovieFromWatchlist(movieId: movieId ?? 0)
+            movieDetailViewModel.errorCallBackForRemoveFromDatabase = { [weak self] error in
+                guard let self = self else { return }
+                self.presentAlertOnMainThread(with: error)
+            }
         }
     }
     
@@ -176,13 +184,6 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func setConstraints(){
-        
-        backPosterImage.translatesAutoresizingMaskIntoConstraints = false
-        posterImage.translatesAutoresizingMaskIntoConstraints = false
-        runtimeAndCalendarStack.translatesAutoresizingMaskIntoConstraints = false
-        voteAverageView.translatesAutoresizingMaskIntoConstraints = false
-        aboutReviewsCastStack.translatesAutoresizingMaskIntoConstraints = false
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             backPosterImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

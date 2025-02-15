@@ -15,6 +15,6 @@ enum HomeEndPoints:String {
     
     var path: String {
         let language = UserDefaults.standard.string(forKey: ConstantStrings.selectedLanguage)
-        return NetworkHelper.shared.urlConfig(path: self.rawValue, language: language ?? "eng")
+        return NetworkHelper.shared.urlConfig(path: self.rawValue, language: language ?? "en-US")
     }
 }

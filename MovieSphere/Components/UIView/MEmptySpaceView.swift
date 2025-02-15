@@ -42,10 +42,6 @@ class MEmptySpaceView: UIView {
         titleLabel.numberOfLines = 2
         subTitleLabel.numberOfLines = 2
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -60),

@@ -17,6 +17,9 @@ class SearchViewModel {
     
     var successCallBackForSearchPageDefaultMovies: (()->Void)?
     var successCallBackForSearchedMovie: (()->Void)?
+    
+    var errorCallBackForSearchPageDefaultMovies: ((String)->Void)?
+    var errorCallBackForSearchedMovie: ((String)->Void)?
 
     func getSearchPageDefaultData(category: Category){
         getGenreList()
@@ -29,13 +32,13 @@ class SearchViewModel {
             
             switch result {
             case .success(let data):
-                movieModel = data
-                searhPageMovies.append(contentsOf: data.results ?? [])
-                genreNames = []
-                findGenreNameWithIdForSingleMovie()
-                successCallBackForSearchPageDefaultMovies?()
+                self.movieModel = data
+                self.searhPageMovies.append(contentsOf: data.results ?? [])
+                self.genreNames = []
+                self.findGenreNameWithIdForSingleMovie()
+                self.successCallBackForSearchPageDefaultMovies?()
             case .failure(let error):
-                print(error)
+                self.errorCallBackForSearchPageDefaultMovies?(error.rawValue)
             }
         }
     }
@@ -47,7 +50,7 @@ class SearchViewModel {
             case .success(let data):
                 genreList = data.genres ?? []
             case .failure(let error):
-                print(error)
+                break
             }
         }
     }
@@ -58,12 +61,12 @@ class SearchViewModel {
             
             switch result {
             case .success(let data):
-                searhPageMovies = data.results ?? []
-                genreNames = []
-                findGenreNameWithIdForSingleMovie()
-                successCallBackForSearchedMovie?()
+                self.searhPageMovies = data.results ?? []
+                self.genreNames = []
+                self.findGenreNameWithIdForSingleMovie()
+                self.successCallBackForSearchedMovie?()
             case .failure(let error):
-                print(error)
+                self.errorCallBackForSearchedMovie?(error.rawValue)
             }
         }
     }

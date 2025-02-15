@@ -51,9 +51,6 @@ class MTopImageBelowTitleCell: UICollectionViewCell {
         
         addSubviews(imageView, titleLabel)
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),

@@ -33,7 +33,6 @@ class MLeftIconRightLabelView: UIView {
     private func configure(){
         
         self.addSubviews(imageView, titleLabel)
-        configureImageView()
         configureTitleLabel()
         
         NSLayoutConstraint.activate([
@@ -48,15 +47,8 @@ class MLeftIconRightLabelView: UIView {
         ])
     }
     
-    private func configureImageView(){
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
     private func configureTitleLabel(){
         
         titleLabel.textAlignment = .left
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
     }
 }

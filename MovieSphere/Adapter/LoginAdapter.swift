@@ -27,16 +27,16 @@ class LoginAdapter {
         case .google:
             loginWithGoogle(completion: completion)
         case .apple:
-            loginWithApple()
+            loginWithApple(completion: completion)
         case .facebook:
-            loginWithFacebook()
+            loginWithFacebook(completion: completion)
         }
     }
     
     private func loginWithGoogle(completion: @escaping((Result<UserModel, LoginAdapterError>)->Void)){
         GIDSignIn.sharedInstance.signIn(withPresenting: controller) { signInResult, error in
             
-            if let _ = error { completion(.failure(.unableToLogin)) }
+            if let error = error { completion(.failure(.unableToLogin)) }
             
             guard let result = signInResult else { return }
             
@@ -53,9 +53,15 @@ class LoginAdapter {
           }
     }
     
-    private func loginWithApple(){}
+    private func loginWithApple(completion: @escaping((Result<UserModel, LoginAdapterError>)->Void)){
+        
+        completion(.failure(.doNotHaveAnAccount))
+    }
     
-    private func loginWithFacebook(){}
+    private func loginWithFacebook(completion: @escaping((Result<UserModel, LoginAdapterError>)->Void)){
+        
+        completion(.failure(.doNotHaveAnAccount))
+    }
 }
 
 
