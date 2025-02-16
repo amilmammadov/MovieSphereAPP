@@ -140,17 +140,11 @@ class ProfileViewController: UIViewController {
         
         UserDefaults.standard.set(apiQuerylanguage, forKey: ConstantStrings.selectedLanguage)
         UserDefaults.standard.set(staticStringsLanguage, forKey: Language.key.rawValue)
-        restartApp()
-    }
-    
-    private func restartApp(){
         
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.window?.rootViewController = MTabBarController()
-            sceneDelegate.window?.makeKeyAndVisible()
+            sceneDelegate.reload()
         }
     }
-    
     private func configureLogOutView(){
         
         let titleLabel = MTitleLabel(text: "logout".localize, font: MFont.poppinsRegular, size: 24, textAlignment: .center)

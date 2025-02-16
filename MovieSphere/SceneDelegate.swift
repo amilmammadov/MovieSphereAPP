@@ -67,6 +67,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
         }
     }
+    
+    func reload() {
+       
+        guard let window = window, let tabBarController = window.rootViewController as? UITabBarController else { return }
+        
+        let selectedIndex = tabBarController.selectedIndex
+        let newTabBarController = MTabBarController()
+        newTabBarController.selectedIndex = selectedIndex
+        window.rootViewController = newTabBarController
+        window.makeKeyAndVisible()
+    }
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
