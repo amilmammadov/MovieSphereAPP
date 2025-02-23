@@ -8,21 +8,32 @@
 import UIKit
 
 enum ConstantStrings {
-    static let homePageTitle = "What do you want to watch?"
-    static let searchPlaceHolder = "Search"
-    static let emptySearchViewTitle = "We are sorry, we can not find the movie :("
-    static let emptySearchViewSubTitle = "Find your movie by Type title, categories, years, etc "
+    static let homePageTitle = "home_page_title"
+    static let searchPlaceHolder = "search_placeholder"
+    static let emptySpaceViewTitle = "empty_space_view_title"
+    static let emptySpaceViewSubTitle = "empty_space_view_subtitle"
+    static let reviews = "reviews"
+    static let aboutMovie = "about_movie"
+    static let cast = "cast"
+    static let emptyFavoriteViewTitle = "empty_favorite_view_title"
+    static let emptyFavoriteViewSubTitle = "empty_favorite_view_subtitle"
+    static let searchInformation = "search_information"
+    static let homeTitle = "home_title"
+    static let searchTitle = "search_title"
+    static let watchListTitle = "watchlist_title"
+    static let profileTitle = "profile_title"
+    static let logout = "logout"
+    static let minutes = "minutes"
+    static let detail = "detail"
+    static let close = "close"
+    
+    //MARK - These strings below won't be localized
+    
     static let selectedLanguage = "SelectedLanguage"
-    static let reviews = "Reviews"
-    static let aboutMovie = "About Movie"
-    static let cast = "Cast"
-    static let emptyFavoriteViewTitle = "There is no movie yet!"
-    static let emptyFavoriteViewSubTitle = "Find your movie by Type title, categories, years, etc "
     static let loginPageText = "Log in and start exploring your next favorite movie!"
     static let continueWithGoogle = "Continue with Google"
     static let continueWithApple = "Continue with Apple"
     static let continueWithFacebook = "Continue with Facebook"
-    static let searchInformation = "You can search any movie by type title, categories, years, etc "
 }
 
 enum Colors {

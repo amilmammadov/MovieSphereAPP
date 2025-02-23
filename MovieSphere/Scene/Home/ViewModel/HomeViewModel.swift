@@ -69,7 +69,7 @@ class HomeViewModel {
         }
     }
     
-    func vertivalCollectionPagination(category: Category){
+    func verticalCollectionPagination(category: Category){
         
         if (verticalCollectionMovieModel?.page ?? 0) <= (verticalCollectionMovieModel?.totalPages ?? 0) {
             verticalMoviesPage += 1

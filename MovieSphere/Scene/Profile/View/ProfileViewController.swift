@@ -142,12 +142,12 @@ class ProfileViewController: UIViewController {
         UserDefaults.standard.set(staticStringsLanguage, forKey: Language.key.rawValue)
         
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.reload()
+            sceneDelegate.appCoordinator?.reload()
         }
     }
     private func configureLogOutView(){
         
-        let titleLabel = MTitleLabel(text: "logout".localize, font: MFont.poppinsRegular, size: 24, textAlignment: .center)
+        let titleLabel = MTitleLabel(text: ConstantStrings.logout.localize, font: MFont.poppinsRegular, size: 24, textAlignment: .center)
         
         let logoutIcon = UIImageView(image: SFSymbols.logout)
         logoutIcon.tintColor = .white
@@ -175,8 +175,9 @@ class ProfileViewController: UIViewController {
         
         GIDSignIn.sharedInstance.signOut()
         UserDefaults.standard.removeObject(forKey: LoginType.google.rawValue)
-        if let sceneDeleate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDeleate.putLoginPageToRoot()
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            sceneDelegate.appCoordinator?.putLoginPageToRoot()
         }
     }
 }

@@ -45,9 +45,9 @@ class LoginOptionsViewController: UIViewController {
         
         loginViewModel.login(loginType: .google)
         loginViewModel.successCallBackForLogin = {user in
-            
+
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                sceneDelegate.putMainPageToRoot()
+                sceneDelegate.appCoordinator?.putMainPageToRoot()
             }
         }
         loginViewModel.errorCallBackForLogin = { [weak self] error in

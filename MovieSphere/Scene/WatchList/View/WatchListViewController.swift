@@ -11,7 +11,9 @@ class WatchListViewController: UIViewController {
     
     let watchListCollection = UITableView()
     let watchListViewModel = WatchListViewModel()
-    let emptyFavoriteView = MEmptySpaceView(image: SFSymbols.emptyFavoriteView ?? UIImage(), title: "empty_favorite_view_title".localize, subTitle: "empty_favorite_view_subtitle".localize)
+    let emptyFavoriteView = MEmptySpaceView(image: SFSymbols.emptyFavoriteView ?? UIImage(), title: ConstantStrings.emptyFavoriteViewTitle.localize, subTitle: ConstantStrings.emptyFavoriteViewSubTitle.localize)
+    
+    var watchListCoordinator: WatchListCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,9 +135,7 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let movieDetailViewController = MovieDetailViewController()
-        movieDetailViewController.movieId = watchListViewModel.watchListMovies[indexPath.row].id
-        navigationController?.pushViewController(movieDetailViewController, animated: true)
+        watchListCoordinator?.goToMovieDetailPage(movieId: watchListViewModel.watchListMovies[indexPath.row].id ?? 0)
     }
 }
 

@@ -11,9 +11,10 @@ class SearchViewController: UIViewController {
 
     let searchField = MCustomSearchBar()
     var searchCollection:UICollectionView!
-    let emptySearchView = MEmptySpaceView(image: SFSymbols.emptySearchView ?? UIImage(), title: "empty_space_view_title".localize, subTitle: "empty_space_view_subtitle".localize)
+    let emptySearchView = MEmptySpaceView(image: SFSymbols.emptySearchView ?? UIImage(), title: ConstantStrings.emptySpaceViewTitle.localize, subTitle: ConstantStrings.emptySpaceViewSubTitle.localize)
     
     var searchViewModel = SearchViewModel()
+    var searchCoordinator: SearchCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,9 +98,9 @@ class SearchViewController: UIViewController {
     
     @objc func informationButtonTapped(){
         
-        let alertController = UIAlertController(title: nil, message: "search_information".localize, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: ConstantStrings.searchInformation.localize, preferredStyle: .actionSheet)
         alertController.view.tintColor = .red
-        let alertAction = UIAlertAction(title: "close".localize, style: .cancel)
+        let alertAction = UIAlertAction(title: ConstantStrings.close.localize, style: .cancel)
         alertController.addAction(alertAction)
         self.present(alertController, animated: true)
     }
@@ -154,9 +155,7 @@ extension SearchViewController: UICollectionViewDataSource {
 extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let movieDetailViewController = MovieDetailViewController()
-        movieDetailViewController.movieId = searchViewModel.searhPageMovies[indexPath.row].id
-        navigationController?.pushViewController(movieDetailViewController, animated: true)
+        searchCoordinator?.goToMovieDetailPage(movieId: searchViewModel.searhPageMovies[indexPath.row].id ?? 0)
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         

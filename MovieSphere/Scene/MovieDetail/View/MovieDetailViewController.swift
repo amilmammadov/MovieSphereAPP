@@ -19,9 +19,9 @@ class MovieDetailViewController: UIViewController {
     let separatorView = MSeperatorView()
     let runtimeAndCalendarStack = UIStackView()
     
-    let aboutMovieButton = MCustomButton(title: "about_movie".localize, font: MFont.poppinsMedium, size: 14)
-    let reviewsButton = MCustomButton(title: "reviews".localize, font: MFont.poppinsMedium, size: 14)
-    let castButton = MCustomButton(title: "cast".localize, font: MFont.poppinsMedium, size: 14)
+    let aboutMovieButton = MCustomButton(title: ConstantStrings.aboutMovie.localize, font: MFont.poppinsMedium, size: 14)
+    let reviewsButton = MCustomButton(title: ConstantStrings.reviews.localize, font: MFont.poppinsMedium, size: 14)
+    let castButton = MCustomButton(title: ConstantStrings.cast.localize, font: MFont.poppinsMedium, size: 14)
     let aboutReviewsCastStack = UIStackView()
     
     let containerView = UIView()
@@ -59,7 +59,7 @@ class MovieDetailViewController: UIViewController {
                 self.posterImage.loadUrl(path: self.movieDetailViewModel.movieDetail?.posterPath ?? "")
                 self.titleLabel.text = self.movieDetailViewModel.movieDetail?.title
                 self.releaseYearView.titleLabel.text = self.movieDetailViewModel.movieDetail?.releaseDate
-                self.runtimeView.titleLabel.text = String(self.movieDetailViewModel.movieDetail?.runtime ?? 0) + "minutes".localize
+                self.runtimeView.titleLabel.text = String(self.movieDetailViewModel.movieDetail?.runtime ?? 0) + ConstantStrings.minutes.localize
                 self.setAboutMovieWhenViewDidload()
                 self.dismissLoading()
             }
@@ -82,7 +82,7 @@ class MovieDetailViewController: UIViewController {
     private func configureMovieDetailViewController(){
         
         view.backgroundColor = Colors.backGround
-        title = "detail".localize
+        title = ConstantStrings.detail.localize
         let rightBarButtonItem = UIBarButtonItem(image: SFSymbols.unselectedMark, style: .plain, target: self, action: #selector(didMarkButtonTapped))
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }

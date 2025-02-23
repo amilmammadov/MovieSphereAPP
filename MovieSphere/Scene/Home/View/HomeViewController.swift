@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    let titleLabel = MTitleLabel(text: "home_page_title".localize, font: MFont.poppinsSemiBold, size: 18,textAlignment: .left)
+    let titleLabel = MTitleLabel(text: ConstantStrings.homePageTitle.localize, font: MFont.poppinsSemiBold, size: 18,textAlignment: .left)
     let searchField = MCustomSearchBar()
     var horizontalMovieCollection: UICollectionView!
     var categoryCollection: UICollectionView!
@@ -22,6 +22,7 @@ class HomeViewController: UIViewController {
     var selectedCategery: Category = .nowPlaying
     
     let homeViewModel = HomeViewModel()
+    var homeCoordinator: HomeCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -212,9 +213,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case horizontalMovieCollection:
-            let movieDetailViewController = MovieDetailViewController()
-            movieDetailViewController.movieId = homeViewModel.horizontalCollectionMovies[indexPath.item].id
-            navigationController?.pushViewController(movieDetailViewController, animated: true)
+            homeCoordinator?.goToMovieDetailPage(movieId: homeViewModel.horizontalCollectionMovies[indexPath.item].id ?? 0)
             
         case categoryCollection:
             
@@ -232,9 +231,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
             
         case movieCollectionForSingleCategory:
-            let movieDetailViewController = MovieDetailViewController()
-            movieDetailViewController.movieId = homeViewModel.singleCategoryCollectionMovies[indexPath.item].id
-            navigationController?.pushViewController(movieDetailViewController, animated: true)
+            homeCoordinator?.goToMovieDetailPage(movieId: homeViewModel.singleCategoryCollectionMovies[indexPath.item].id ?? 0)
             
         default:
             break
@@ -260,7 +257,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let height = scrollView.frame.size.height
             
             if contenOffset > contentSize - height {
-                homeViewModel.vertivalCollectionPagination(category: selectedCategery)
+                homeViewModel.verticalCollectionPagination(category: selectedCategery)
             }
         default:
             break
@@ -337,9 +334,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 extension HomeViewController: SearchViewDelegate {
     
     func didMovieTapped(movieId: Int) {
-        let movieDetailViewController = MovieDetailViewController()
-        movieDetailViewController.movieId = movieId
-        navigationController?.pushViewController(movieDetailViewController, animated: true)
+        homeCoordinator?.goToMovieDetailPage(movieId: movieId)
     }
 }
 
