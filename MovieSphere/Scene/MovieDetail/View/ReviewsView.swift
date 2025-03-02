@@ -7,14 +7,21 @@
 
 import UIKit
 
-class ReviewsView: UIView {
+final class ReviewsView: UIView {
     
-    var movieReviews: [Review]?
-    var reviewsCollection: UICollectionView!
+    private var movieReviews: [Review]?
+    private lazy var reviewsCollection: UICollectionView = {
+        let reviewsCollection = UICollectionView(frame: .zero, collectionViewLayout: createReviewsCollectionLayout())
+        reviewsCollection.backgroundColor = Colors.backGround
+        reviewsCollection.delegate = self
+        reviewsCollection.dataSource = self
+        reviewsCollection.register(MReviewCell.self, forCellWithReuseIdentifier: MReviewCell.reuseId)
+        return reviewsCollection
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureReviewsCollection()
+        
         configure()
     }
     
@@ -26,15 +33,6 @@ class ReviewsView: UIView {
         self.init(frame: .zero)
         
         movieReviews = reviews
-    }
-    
-    private func configureReviewsCollection(){
-        
-        reviewsCollection = UICollectionView(frame: .zero, collectionViewLayout: createReviewsCollectionLayout())
-        reviewsCollection.backgroundColor = Colors.backGround
-        reviewsCollection.delegate = self
-        reviewsCollection.dataSource = self
-        reviewsCollection.register(MReviewCell.self, forCellWithReuseIdentifier: MReviewCell.reuseId)
     }
     
     private func createReviewsCollectionLayout()->UICollectionViewFlowLayout{

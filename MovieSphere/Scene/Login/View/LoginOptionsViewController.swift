@@ -7,14 +7,14 @@
 
 import UIKit
 
-class LoginOptionsViewController: UIViewController {
+final class LoginOptionsViewController: UIViewController {
     
-    let googleLogin = MLoginOptionView(image: SFSymbols.googleLogo ?? UIImage(), title: ConstantStrings.continueWithGoogle, color: .white, textColor: .black)
-    let appleLogin = MLoginOptionView(image: SFSymbols.appleLogo ?? UIImage(), title: ConstantStrings.continueWithApple, color: .black, textColor: .white)
-    let facebookLogin = MLoginOptionView(image: SFSymbols.facebookLogo ?? UIImage(), title: ConstantStrings.continueWithFacebook, color: Colors.facebookLoginBackground ?? UIColor(), textColor: .white)
+    private let googleLogin = MLoginOptionView(image: SFSymbols.googleLogo ?? UIImage(), title: ConstantStrings.continueWithGoogle, color: .white, textColor: .black)
+    private let appleLogin = MLoginOptionView(image: SFSymbols.appleLogo ?? UIImage(), title: ConstantStrings.continueWithApple, color: .black, textColor: .white)
+    private let facebookLogin = MLoginOptionView(image: SFSymbols.facebookLogo ?? UIImage(), title: ConstantStrings.continueWithFacebook, color: Colors.facebookLoginBackground ?? UIColor(), textColor: .white)
     
     
-    let loginViewModel = LoginViewModel()
+    private let loginViewModel = LoginViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,7 @@ class LoginOptionsViewController: UIViewController {
             }
         }
         loginViewModel.errorCallBackForLogin = { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
     }
@@ -59,7 +59,7 @@ class LoginOptionsViewController: UIViewController {
     @objc func appleLoginViewTapped(){
         
         loginViewModel.errorCallBackForLogin = { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
         loginViewModel.login(loginType: .apple)
@@ -68,7 +68,7 @@ class LoginOptionsViewController: UIViewController {
     @objc func facebookLoginViewTapped(){
         
         loginViewModel.errorCallBackForLogin = { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
         loginViewModel.login(loginType: .facebook)

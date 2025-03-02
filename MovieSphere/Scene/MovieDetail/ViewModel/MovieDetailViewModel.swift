@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-class MovieDetailViewModel {
+final class MovieDetailViewModel {
     
     var movieDetail: MovieDetailModel?
     var movieReviews: [Review]?
@@ -25,7 +25,7 @@ class MovieDetailViewModel {
     func getMovieDetail(id: Int){
         
         MovieDetailManager.shared.getMovieDetail(id: id) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             switch result {
             case .success(let data):
@@ -40,13 +40,13 @@ class MovieDetailViewModel {
     func getReviewsForMovie(id: Int){
         
         MovieDetailManager.shared.getReviesForMovie(id: id){ [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             switch result {
             case .success(let data):
                 self.movieReviews = data.results
             case .failure(let error):
-                break
+                print(error)
             }
         }
     }
@@ -54,7 +54,7 @@ class MovieDetailViewModel {
     func getMovieCast(id: Int){
         
         MovieDetailManager.shared.getMovieCast(id: id) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             switch result {
             case .success(let data):
@@ -68,7 +68,7 @@ class MovieDetailViewModel {
     func addMovieToDatabase(movie: MovieDetailModel) {
         
         FirebaseManager.shared.addMovieToDatabase(movie: movie) { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             
             if let error = error {
                 self.errorCallBackWhenAddingDatabase?(error.rawValue)
@@ -79,7 +79,7 @@ class MovieDetailViewModel {
     func checkMovieInDatabase(movieId: Int) {
         
         FirebaseManager.shared.checKMovieInDatabase(movieId: movieId) { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             
             guard let error = error else {
                 self.successCallBackForCheckMovie?()
@@ -91,7 +91,7 @@ class MovieDetailViewModel {
     func removeMovieFromWatchlist(movieId: Int){
         
         FirebaseManager.shared.removeFromDatabase(movieId: movieId) { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             
             if let error = error {
                 self.errorCallBackForRemoveFromDatabase?(error.rawValue)

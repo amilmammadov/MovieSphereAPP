@@ -7,9 +7,9 @@
 
 import UIKit
 
-class AboutMovieView: UIView {
+final class AboutMovieView: UIView {
     
-    let textView = UITextView()
+    private let textView = UITextView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WatchListViewModel {
+final class WatchListViewModel {
     
     var watchListMovies = [MovieDetailModel]()
     var genreNames = [[String]]()
@@ -19,7 +19,7 @@ class WatchListViewModel {
     func getWatchListData(){
         
         FirebaseManager.shared.getWatchListMovies { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             switch result {
             case .success(let data):
@@ -35,7 +35,7 @@ class WatchListViewModel {
     func removeMovieFromWatchlist(movieId: Int){
         
         FirebaseManager.shared.removeFromDatabase(movieId: movieId) { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             
             if let error = error {
                 self.errorCallBackForRemoveMovie?(error.rawValue)

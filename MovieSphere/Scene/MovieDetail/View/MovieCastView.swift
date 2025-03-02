@@ -7,15 +7,21 @@
 
 import UIKit
 
-class MovieCastView: UIView {
+final class MovieCastView: UIView {
     
-    var castCollection: UICollectionView!
-    var movieCast: [Actor]?
+    lazy var castCollection: UICollectionView = {
+        let castCollection = UICollectionView(frame: .zero, collectionViewLayout: createCastCollectionLayout())
+        castCollection.backgroundColor = Colors.backGround
+        castCollection.showsVerticalScrollIndicator = false
+        castCollection.configure(self, MTopImageBelowTitleCell.self, MTopImageBelowTitleCell.reuseId)
+        return castCollection
+    }()
+    
+    private var movieCast: [Actor]?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureCastCollection()
         configure()
     }
     
@@ -27,14 +33,6 @@ class MovieCastView: UIView {
         self.init(frame: .zero)
         
         self.movieCast = movieCast
-    }
-    
-    private func configureCastCollection(){
-        
-        castCollection = UICollectionView(frame: .zero, collectionViewLayout: createCastCollectionLayout())
-        castCollection.backgroundColor = Colors.backGround
-        castCollection.showsVerticalScrollIndicator = false
-        castCollection.configure(self, MTopImageBelowTitleCell.self, MTopImageBelowTitleCell.reuseId)
     }
     
     private func createCastCollectionLayout()->UICollectionViewFlowLayout{
@@ -69,7 +67,7 @@ extension MovieCastView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = castCollection.dequeueReusableCell(withReuseIdentifier: MTopImageBelowTitleCell.reuseId, for: indexPath) as! MTopImageBelowTitleCell
+        guard let cell = castCollection.dequeueReusableCell(withReuseIdentifier: MTopImageBelowTitleCell.reuseId, for: indexPath) as? MTopImageBelowTitleCell else { return UICollectionViewCell() }
         cell.setData(actor: movieCast?[indexPath.item] ?? Actor(originalName: nil, profilePath: nil))
         return cell
     }

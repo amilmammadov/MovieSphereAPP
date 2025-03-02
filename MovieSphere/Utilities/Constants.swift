@@ -30,7 +30,7 @@ enum ConstantStrings {
     //MARK - These strings below won't be localized
     
     static let selectedLanguage = "SelectedLanguage"
-    static let loginPageText = "Log in and start exploring your next favorite movie!"
+    static let loginPageText = "Login and start exploring your next favorite movie!"
     static let continueWithGoogle = "Continue with Google"
     static let continueWithApple = "Continue with Apple"
     static let continueWithFacebook = "Continue with Facebook"

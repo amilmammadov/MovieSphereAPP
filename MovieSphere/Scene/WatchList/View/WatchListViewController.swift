@@ -7,11 +7,11 @@
 
 import UIKit
 
-class WatchListViewController: UIViewController {
+final class WatchListViewController: UIViewController {
     
-    let watchListCollection = UITableView()
-    let watchListViewModel = WatchListViewModel()
-    let emptyFavoriteView = MEmptySpaceView(image: SFSymbols.emptyFavoriteView ?? UIImage(), title: ConstantStrings.emptyFavoriteViewTitle.localize, subTitle: ConstantStrings.emptyFavoriteViewSubTitle.localize)
+    private let watchListCollection = UITableView()
+    private let watchListViewModel = WatchListViewModel()
+    private let emptyFavoriteView = MEmptySpaceView(image: SFSymbols.emptyFavoriteView ?? UIImage(), title: ConstantStrings.emptyFavoriteViewTitle.localize, subTitle: ConstantStrings.emptyFavoriteViewSubTitle.localize)
     
     var watchListCoordinator: WatchListCoordinator?
 
@@ -48,7 +48,7 @@ class WatchListViewController: UIViewController {
         }
         
         watchListViewModel.errorCallBackForWatchListData = { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
     }
@@ -105,7 +105,7 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] _,_,_ in
-            guard let self = self else { return }
+            guard let self else { return }
             
             let movie = self.watchListViewModel.watchListMovies[indexPath.row]
             self.watchListViewModel.watchListMovies.remove(at: indexPath.row)
@@ -113,7 +113,7 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
             
             self.watchListViewModel.removeMovieFromWatchlist(movieId: movie.id ?? 0)
             self.watchListViewModel.errorCallBackForRemoveMovie = { [weak self] error in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.presentAlertOnMainThread(with: error)
             }
             

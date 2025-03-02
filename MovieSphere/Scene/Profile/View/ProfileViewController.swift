@@ -8,16 +8,16 @@
 import UIKit
 import GoogleSignIn
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
-    let profileImage = UIImageView()
-    let fullNameLabel = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 20, textAlignment: .left)
-    let emailLabel = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 20, textAlignment: .left)
-    let logoutView = UIView()
+    private let profileImage = UIImageView()
+    private let fullNameLabel = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 20, textAlignment: .left)
+    private let emailLabel = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 20, textAlignment: .left)
+    private let logoutView = UIView()
     
-    let languageStackView = UIStackView()
+    private let languageStackView = UIStackView()
     
-    let profileViewModel = ProfileViewModel()
+    private let profileViewModel = ProfileViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class ProfileViewController: UIViewController {
     private func cofigure(){
         
         profileViewModel.successCallBackForProfile = { [weak self] user in
-            guard let self = self else { return }
+            guard let self else { return }
             
             DispatchQueue.main.async {
                 if let path = user.profileImageUrl {
@@ -46,7 +46,7 @@ class ProfileViewController: UIViewController {
         }
         
         profileViewModel.errorCallBackForProfile = { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
         

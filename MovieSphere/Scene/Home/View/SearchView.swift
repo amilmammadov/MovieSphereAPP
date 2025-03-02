@@ -7,23 +7,28 @@
 
 import UIKit
 
-protocol SearchViewDelegate{
+protocol SearchViewDelegate:AnyObject{
     func didMovieTapped(movieId: Int)
 }
 
-class SearchView: UIView {
+final class SearchView: UIView {
     
-    var searchCollection: UICollectionView!
+    lazy var searchCollection: UICollectionView = {
+        let searchCollection = UICollectionView(frame: .zero, collectionViewLayout: createSearchCollectionLayout())
+        searchCollection.backgroundColor = Colors.backGround
+        searchCollection.configure(self, MLeftImageRightDetailCell.self, MLeftImageRightDetailCell.reuseId)
+        return searchCollection
+    }()
+    
     var movies = [Movie]()
     var genreList = [[String]]()
     
-    var delegate: SearchViewDelegate?
+    weak var delegate: SearchViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = Colors.backGround
-        configureSearchCollection()
         configureSearchView()
     }
     
@@ -32,6 +37,7 @@ class SearchView: UIView {
     }
     
     private func configureSearchView(){
+        
         
         addSubview(searchCollection)
         searchCollection.translatesAutoresizingMaskIntoConstraints = false
@@ -42,13 +48,6 @@ class SearchView: UIView {
             searchCollection.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             searchCollection.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
-    }
-    
-    private func configureSearchCollection(){
-        
-        searchCollection = UICollectionView(frame: .zero, collectionViewLayout: createSearchCollectionLayout())
-        searchCollection.backgroundColor = Colors.backGround
-        searchCollection.configure(self, MLeftImageRightDetailCell.self, MLeftImageRightDetailCell.reuseId)
     }
     
     private func createSearchCollectionLayout()->UICollectionViewFlowLayout{
@@ -69,7 +68,8 @@ extension SearchView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = searchCollection.dequeueReusableCell(withReuseIdentifier: MLeftImageRightDetailCell.reuseId, for: indexPath) as! MLeftImageRightDetailCell
+        guard let cell = searchCollection.dequeueReusableCell(withReuseIdentifier: MLeftImageRightDetailCell.reuseId, for: indexPath) as? MLeftImageRightDetailCell else { return UICollectionViewCell() }
+        
         cell.setData(movie: movies[indexPath.row], genreList: genreList[indexPath.row])
         cell.genreCollection.reloadData()
         return cell

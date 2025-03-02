@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HomeViewModel {
+final class HomeViewModel {
     
     var horizontalCollectionMovies = [Movie]()
     var singleCategoryCollectionMovies = [Movie]()
@@ -18,15 +18,15 @@ class HomeViewModel {
     var errorCallBackForHorizontalCMovies: ((String)->Void)?
     var errroCallBackForSingleCategoryMovies: ((String)->Void)?
     
-    var horizontalMoviesPage: Int = 1
-    var horizontalCollectionMovieModel: MovieModel?
-    var verticalMoviesPage: Int = 1
-    var verticalCollectionMovieModel: MovieModel?
+    private var horizontalMoviesPage: Int = 1
+    private var horizontalCollectionMovieModel: MovieModel?
+    private var verticalMoviesPage: Int = 1
+    private var verticalCollectionMovieModel: MovieModel?
     
     func getHorizontalCollectionMovies(category: Category){
         
         HomeManager.shared.getHomePageMovies(category: category, page: horizontalMoviesPage) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .success(let data):
                 self.horizontalCollectionMovieModel = data
@@ -45,7 +45,7 @@ class HomeViewModel {
         }
         
         HomeManager.shared.getHomePageMovies(category: category, page: verticalMoviesPage) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             if isNewCategory {
                 self.singleCategoryCollectionMovies = []

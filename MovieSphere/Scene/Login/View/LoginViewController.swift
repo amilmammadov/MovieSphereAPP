@@ -7,12 +7,12 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
-    let posterImage = UIImageView()
-    let titleLabel = MTitleLabel(text: ConstantStrings.loginPageText, font: MFont.poppinsSemiBold, size: 24, textAlignment: .center)
-    let continueButton = UIButton()
-    let loginOptionsViewController = LoginOptionsViewController()
+    private let posterImage = UIImageView()
+    private let titleLabel = MTitleLabel(text: ConstantStrings.loginPageText, font: MFont.poppinsSemiBold, size: 24, textAlignment: .center)
+    private let continueButton = UIButton()
+    private let loginOptionsViewController = LoginOptionsViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()

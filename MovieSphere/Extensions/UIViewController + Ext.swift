@@ -82,11 +82,10 @@ extension UIViewController {
         let velocity = gesture.velocity(in: self.view)
         let screenHeight = self.view.frame.size.height
         let modalViewHeight = screenHeight * 0.4
-        let originalYPositionOfModalView: CGRect = .zero
         
         switch gesture.state {
         case .changed:
-            let newYPosition = max(originalYPositionOfModalView.origin.y + translation.y, screenHeight - modalViewHeight)
+            let newYPosition = max(screenHeight - modalViewHeight + translation.y, screenHeight - modalViewHeight)
             modalView.frame.origin.y = newYPosition
         case .ended:
             

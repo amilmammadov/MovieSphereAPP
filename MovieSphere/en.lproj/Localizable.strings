@@ -7,7 +7,7 @@
 "cast" = "Cast";
 "empty_favorite_view_title" = "There is no movie yet!";
 "empty_favorite_view_subtitle" = "Find your movie by Type title, categories, years, etc";
-"login_page_text" = "Log in and start exploring your next favorite movie!";
+"login_page_text" = "Login and start exploring your next favorite movie!";
 "continue_with_google" = "Continue with Google";
 "continue_with_apple" = "Continue with Apple";
 "continue_with_facebook" = "Continue with Facebook";

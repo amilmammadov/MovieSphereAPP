@@ -7,30 +7,30 @@
 
 import UIKit
 
-class MovieDetailViewController: UIViewController {
+final class MovieDetailViewController: UIViewController {
     
-    let backPosterImage = UIImageView()
-    let posterImage = UIImageView()
-    let titleLabel = MTitleLabel(text: nil, font: MFont.poppinsSemiBold, size: 18, textAlignment: .justified)
-    let voteAverageView = MLeftIconRightLabelView(icon: SFSymbols.star ?? UIImage(), title: nil, color: Colors.starColor ?? UIColor(), font: 16)
+    private let backPosterImage = UIImageView()
+    private let posterImage = UIImageView()
+    private let titleLabel = MTitleLabel(text: nil, font: MFont.poppinsSemiBold, size: 18, textAlignment: .justified)
+    private let voteAverageView = MLeftIconRightLabelView(icon: SFSymbols.star ?? UIImage(), title: nil, color: Colors.starColor ?? UIColor(), font: 16)
     
-    let releaseYearView = MLeftIconRightLabelView(icon: SFSymbols.calendar ?? UIImage(), title: nil, color: Colors.seacrhIcon ?? UIColor(), font: 12)
-    let runtimeView = MLeftIconRightLabelView(icon: SFSymbols.clock ?? UIImage(), title: nil, color: Colors.seacrhIcon ?? UIColor(), font: 12)
-    let separatorView = MSeperatorView()
-    let runtimeAndCalendarStack = UIStackView()
+    private let releaseYearView = MLeftIconRightLabelView(icon: SFSymbols.calendar ?? UIImage(), title: nil, color: Colors.seacrhIcon ?? UIColor(), font: 12)
+    private let runtimeView = MLeftIconRightLabelView(icon: SFSymbols.clock ?? UIImage(), title: nil, color: Colors.seacrhIcon ?? UIColor(), font: 12)
+    private let separatorView = MSeperatorView()
+    private let runtimeAndCalendarStack = UIStackView()
     
-    let aboutMovieButton = MCustomButton(title: ConstantStrings.aboutMovie.localize, font: MFont.poppinsMedium, size: 14)
-    let reviewsButton = MCustomButton(title: ConstantStrings.reviews.localize, font: MFont.poppinsMedium, size: 14)
-    let castButton = MCustomButton(title: ConstantStrings.cast.localize, font: MFont.poppinsMedium, size: 14)
-    let aboutReviewsCastStack = UIStackView()
+    private let aboutMovieButton = MCustomButton(title: ConstantStrings.aboutMovie.localize, font: MFont.poppinsMedium, size: 14)
+    private let reviewsButton = MCustomButton(title: ConstantStrings.reviews.localize, font: MFont.poppinsMedium, size: 14)
+    private let castButton = MCustomButton(title: ConstantStrings.cast.localize, font: MFont.poppinsMedium, size: 14)
+    private let aboutReviewsCastStack = UIStackView()
     
-    let containerView = UIView()
+    private let containerView = UIView()
     
     var movieId: Int?
-    let movieDetailViewModel = MovieDetailViewModel()
-    var tappedButton = ConstantStrings.aboutMovie
+    private let movieDetailViewModel = MovieDetailViewModel()
+    private var tappedButton = ConstantStrings.aboutMovie
     
-    var isMarkButtonTapped = false {
+    private var isMarkButtonTapped = false {
         didSet {
             let icon = isMarkButtonTapped ? SFSymbols.selectedMark : SFSymbols.unselectedMark
             navigationItem.rightBarButtonItem?.image = icon
@@ -94,13 +94,13 @@ class MovieDetailViewController: UIViewController {
         if isMarkButtonTapped {
             movieDetailViewModel.addMovieToDatabase(movie: movieDetailViewModel.movieDetail ?? MovieDetailModel())
             movieDetailViewModel.errorCallBackWhenAddingDatabase = { [weak self] error in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.presentAlertOnMainThread(with: error)
             }
         }else{
             movieDetailViewModel.removeMovieFromWatchlist(movieId: movieId ?? 0)
             movieDetailViewModel.errorCallBackForRemoveFromDatabase = { [weak self] error in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.presentAlertOnMainThread(with: error)
             }
         }

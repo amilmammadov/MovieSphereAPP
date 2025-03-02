@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ProfileViewModel {
+final class ProfileViewModel {
 
     var successCallBackForProfile: ((UserModel)->Void)?
     var errorCallBackForProfile: ((String)->Void)?

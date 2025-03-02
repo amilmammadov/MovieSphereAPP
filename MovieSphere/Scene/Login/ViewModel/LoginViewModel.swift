@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LoginViewModel {
+final class LoginViewModel {
     
     var loginAdapter: LoginAdapter?
     var successCallBackForLogin: ((UserModel)->Void)?
@@ -16,7 +16,7 @@ class LoginViewModel {
     func login(loginType: LoginType){
         
         loginAdapter?.login(loginType: loginType){ [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             switch result {
             case .success(let user):

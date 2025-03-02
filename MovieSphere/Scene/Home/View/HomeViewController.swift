@@ -7,29 +7,51 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     
-    let titleLabel = MTitleLabel(text: ConstantStrings.homePageTitle.localize, font: MFont.poppinsSemiBold, size: 18,textAlignment: .left)
-    let searchField = MCustomSearchBar()
-    var horizontalMovieCollection: UICollectionView!
-    var categoryCollection: UICollectionView!
-    var movieCollectionForSingleCategory: UICollectionView!
-    var searchView = SearchView()
+    private let titleLabel = MTitleLabel(text: ConstantStrings.homePageTitle.localize, font: MFont.poppinsSemiBold, size: 18,textAlignment: .left)
+    private let searchField = MCustomSearchBar()
     
-    var movieCategories: [String] {
+    lazy var horizontalMovieCollection: UICollectionView = {
+        let horizontalMovieCollection = UICollectionView(frame: .zero, collectionViewLayout: createHorizontalMovieCollectionLayout())
+        horizontalMovieCollection.backgroundColor = Colors.backGround
+        horizontalMovieCollection.showsHorizontalScrollIndicator = false
+        horizontalMovieCollection.configure(self, MSingleImageCell.self, MSingleImageCell.reuseId)
+        return horizontalMovieCollection
+    }()
+    
+    lazy var categoryCollection: UICollectionView = {
+        let categoryCollection = UICollectionView(frame: .zero, collectionViewLayout: createCategoryCollectionlayout())
+        categoryCollection.backgroundColor = Colors.backGround
+        categoryCollection.showsHorizontalScrollIndicator = false
+        categoryCollection.configure(self, MCategoryCell.self, MCategoryCell.reuseId)
+        return categoryCollection
+    }()
+    
+    lazy var movieCollectionForSingleCategory: UICollectionView = {
+        let movieCollectionForSingleCategory = UICollectionView(frame: .zero, collectionViewLayout: createMovieCollectionForSingleCategoryLayout())
+        movieCollectionForSingleCategory.backgroundColor = Colors.backGround
+        movieCollectionForSingleCategory.showsVerticalScrollIndicator = false
+        movieCollectionForSingleCategory.configure(self, MSingleImageCell.self, MSingleImageCell.reuseId)
+        return movieCollectionForSingleCategory
+    }()
+    
+    private var searchView = SearchView()
+    
+    private var movieCategories: [String] {
         return Category.allCases.map {$0.rawValue}
     }
-    var selectedCategery: Category = .nowPlaying
     
-    let homeViewModel = HomeViewModel()
+    private var selectedCategery: Category = .nowPlaying
+    
+    private let homeViewModel = HomeViewModel()
     var homeCoordinator: HomeCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        configureHorizontalMovieCollection()
-        configureCategoryCollection()
-        configureMovieCollectionForSingleCategory()
+        
+        configureSelectedCategory()
         configureSearchField()
         addSubViews()
         setConstraints()
@@ -49,19 +71,19 @@ class HomeViewController: UIViewController {
         }
         
         homeViewModel.errorCallBackForHorizontalCMovies = { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
         
         homeViewModel.successCallBackForSingleCategoryMovies = {
             DispatchQueue.main.async {
-                self.movieCollectionForSingleCategory.reloadData()
+                self.movieCollectionForSingleCategory   .reloadData()
                 self.dismissLoading()
             }
         }
         
         homeViewModel.errroCallBackForSingleCategoryMovies = { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
     }
@@ -107,34 +129,15 @@ class HomeViewController: UIViewController {
         }
     }
     
-    private func configureHorizontalMovieCollection(){
-        
-        horizontalMovieCollection = UICollectionView(frame: .zero, collectionViewLayout: createHorizontalMovieCollectionLayout())
-        horizontalMovieCollection.backgroundColor = Colors.backGround
-        horizontalMovieCollection.showsHorizontalScrollIndicator = false
-        horizontalMovieCollection.configure(self, MSingleImageCell.self, MSingleImageCell.reuseId)
-    }
-    private func configureCategoryCollection(){
-        
-        categoryCollection = UICollectionView(frame: .zero, collectionViewLayout: createCategoryCollectionlayout())
-        categoryCollection.backgroundColor = Colors.backGround
-        categoryCollection.showsHorizontalScrollIndicator = false
-        categoryCollection.configure(self, MCategoryCell.self, MCategoryCell.reuseId)
-        
-        // MARK - This line for adding bottomline to nowplaying category when viewDidload work
+    // MARK - This line for adding bottomline to nowplaying category when viewDidload work
+
+    private func configureSelectedCategory(){
         
         DispatchQueue.main.async {
             if let cell = self.categoryCollection.cellForItem(at: IndexPath(item: 0, section: 0)) as? MCategoryCell {
                 cell.addBottomLineToCell()
             }
         }
-    }
-    private func configureMovieCollectionForSingleCategory(){
-        
-        movieCollectionForSingleCategory = UICollectionView(frame: .zero, collectionViewLayout: createMovieCollectionForSingleCategoryLayout())
-        movieCollectionForSingleCategory.backgroundColor = Colors.backGround
-        movieCollectionForSingleCategory.showsVerticalScrollIndicator = false
-        movieCollectionForSingleCategory.configure(self, MSingleImageCell.self, MSingleImageCell.reuseId)
     }
     
     private func createHorizontalMovieCollectionLayout()->UICollectionViewFlowLayout{
@@ -183,16 +186,21 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
         case horizontalMovieCollection:
-            let cell = horizontalMovieCollection.dequeueReusableCell(withReuseIdentifier: MSingleImageCell.reuseId, for: indexPath) as! MSingleImageCell
+            
+            guard let cell = horizontalMovieCollection.dequeueReusableCell(withReuseIdentifier: MSingleImageCell.reuseId, for: indexPath) as? MSingleImageCell else { return UICollectionViewCell() }
             cell.set(movie: homeViewModel.horizontalCollectionMovies[indexPath.item])
             return cell
+            
         case categoryCollection:
-            let cell = categoryCollection.dequeueReusableCell(withReuseIdentifier: MCategoryCell.reuseId, for: indexPath) as! MCategoryCell
+            
+            guard let cell = categoryCollection.dequeueReusableCell(withReuseIdentifier: MCategoryCell.reuseId, for: indexPath) as? MCategoryCell else { return UICollectionViewCell() }
             cell.setTitle(movieCategories[indexPath.item].localize)
             return cell
-        case movieCollectionForSingleCategory:
-            let cell = movieCollectionForSingleCategory.dequeueReusableCell(withReuseIdentifier: MSingleImageCell.reuseId, for: indexPath) as! MSingleImageCell
             
+        case movieCollectionForSingleCategory:
+            
+            guard let cell = movieCollectionForSingleCategory.dequeueReusableCell(withReuseIdentifier: MSingleImageCell.reuseId, for: indexPath) as? MSingleImageCell else { return UICollectionViewCell() }
+        
             switch selectedCategery {
             case .nowPlaying:
                 cell.set(movie: homeViewModel.singleCategoryCollectionMovies[indexPath.item])
@@ -337,5 +345,6 @@ extension HomeViewController: SearchViewDelegate {
         homeCoordinator?.goToMovieDetailPage(movieId: movieId)
     }
 }
+
 
 

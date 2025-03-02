@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SearchViewModel {
+final class SearchViewModel {
     
     var searhPageMovies = Array<Movie>()
     var genreList = Array<Genre>()
@@ -28,7 +28,7 @@ class SearchViewModel {
     
     private func getSearchPageDefaultMovies(category: Category){
         SearchManager.shared.getSearchPageDefaultData(category: category, page: page) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             switch result {
             case .success(let data):
@@ -45,19 +45,19 @@ class SearchViewModel {
     
     func getGenreList(){
         SearchManager.shared.getGenreList { [weak self ] result in
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .success(let data):
                 genreList = data.genres ?? []
             case .failure(let error):
-                break
+                print(error)
             }
         }
     }
     
     func getSearchedMovie(queryParam: String){
         SearchManager.shared.getSearchedMovie(queryParam: queryParam){ [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             switch result {
             case .success(let data):

@@ -7,20 +7,26 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
 
-    let searchField = MCustomSearchBar()
-    var searchCollection:UICollectionView!
-    let emptySearchView = MEmptySpaceView(image: SFSymbols.emptySearchView ?? UIImage(), title: ConstantStrings.emptySpaceViewTitle.localize, subTitle: ConstantStrings.emptySpaceViewSubTitle.localize)
+    private let searchField = MCustomSearchBar()
     
-    var searchViewModel = SearchViewModel()
+    private lazy var searchCollection:UICollectionView = {
+        let searchCollection = UICollectionView(frame: .zero, collectionViewLayout: createSearchCollectionLayout())
+        searchCollection.backgroundColor = Colors.backGround
+        searchCollection.configure(self, MLeftImageRightDetailCell.self, MLeftImageRightDetailCell.reuseId)
+        return searchCollection
+    }()
+    
+    private let emptySearchView = MEmptySpaceView(image: SFSymbols.emptySearchView ?? UIImage(), title: ConstantStrings.emptySpaceViewTitle.localize, subTitle: ConstantStrings.emptySpaceViewSubTitle.localize)
+    
+    private let searchViewModel = SearchViewModel()
     var searchCoordinator: SearchCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureNavigationController()
-        configureSearchCollection()
         addSubviews()
         setConstraints()
         configureData()
@@ -38,7 +44,7 @@ class SearchViewController: UIViewController {
         }
         
         searchViewModel.errorCallBackForSearchPageDefaultMovies = { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
     }
@@ -72,7 +78,7 @@ class SearchViewController: UIViewController {
             }
             
             searchViewModel.errorCallBackForSearchedMovie = { [weak self] error in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.presentAlertOnMainThread(with: error)
             }
         }
@@ -107,12 +113,6 @@ class SearchViewController: UIViewController {
     
     private func addSubviews(){
         view.addSubviews(searchField, searchCollection)
-    }
-    
-    private func configureSearchCollection(){
-        searchCollection = UICollectionView(frame: .zero, collectionViewLayout: createSearchCollectionLayout())
-        searchCollection.backgroundColor = Colors.backGround
-        searchCollection.configure(self, MLeftImageRightDetailCell.self, MLeftImageRightDetailCell.reuseId)
     }
     
     private func createSearchCollectionLayout()->UICollectionViewFlowLayout{

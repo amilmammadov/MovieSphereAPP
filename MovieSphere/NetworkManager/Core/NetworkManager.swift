@@ -10,7 +10,7 @@ import Foundation
 class NetworkManager {
     static let shared = NetworkManager()
     
-    func request<T:Codable>(model: T.Type,
+    func request<T: Codable>(model: T.Type,
                             url: String,
                             method: HTTPMethods = .GET,
                             parameter: T? = nil,
