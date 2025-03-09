@@ -7,19 +7,19 @@
 
 import UIKit
 
-class MLeftImageRightInfoCell: UITableViewCell {
+final class MLeftImageRightInfoCell: UITableViewCell {
 
     static let reuseId = "MLeftImageRightInfoCell"
     
-    let topSpace = UIView()
-    let movieImage = UIImageView()
-    let genreImage = UIImageView(image: SFSymbols.ticket)
-    let movieTitle = UILabel()
-    var voteTitle = MLeftIconRightLabelView(icon: SFSymbols.star  ?? UIImage(), title: nil, color: Colors.starColor ?? UIColor(), font: 12)
-    var releaseDateTitle = MLeftIconRightLabelView(icon: SFSymbols.calendar ?? UIImage(), title: nil, color: UIColor.white, font: 12)
-    let bottomSpace = UIView()
+    private let topSpace = UIView()
+    private let movieImage = UIImageView()
+    private let genreImage = UIImageView(image: SFSymbols.ticket)
+    private let movieTitle = UILabel()
+    private let voteTitle = MLeftIconRightLabelView(icon: SFSymbols.star  ?? UIImage(), title: nil, color: Colors.starColor ?? UIColor(), font: 12)
+    private let releaseDateTitle = MLeftIconRightLabelView(icon: SFSymbols.calendar ?? UIImage(), title: nil, color: UIColor.white, font: 12)
+    private let bottomSpace = UIView()
     
-    var genresLabel = UILabel()
+    private let genresLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

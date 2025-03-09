@@ -7,11 +7,11 @@
 
 import UIKit
 
-class MEmptySpaceView: UIView {
+final class MEmptySpaceView: UIView {
     
-    let imageView = UIImageView()
-    let titleLabel = MTitleLabel(text: nil, font: MFont.poppinsSemiBold, size: 16, textAlignment: .center)
-    let subTitleLabel = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 12, textAlignment: .center)
+    private let imageView = UIImageView()
+    private let titleLabel = MTitleLabel(text: nil, font: MFont.poppinsSemiBold, size: 16, textAlignment: .center)
+    private let subTitleLabel = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 12, textAlignment: .center)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -7,10 +7,10 @@
 
 import UIKit
 
-class MLeftIconRightLabelView: UIView {
+final class MLeftIconRightLabelView: UIView {
     
-    let imageView = UIImageView()
-    var titleLabel = UILabel()
+    private let imageView = UIImageView()
+    let titleLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

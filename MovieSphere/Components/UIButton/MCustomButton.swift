@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MCustomButton: UIButton {
+final class MCustomButton: UIButton {
     
     let bottomLine = UIView()
     

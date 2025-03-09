@@ -7,11 +7,11 @@
 
 import UIKit
 
-class MGenreCell: UICollectionViewCell {
+final class MGenreCell: UICollectionViewCell {
     
     static let reuseId = "MGenreCell"
     
-    let genreLabel = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 12, textAlignment: .center)
+    private let genreLabel = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 12, textAlignment: .center)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

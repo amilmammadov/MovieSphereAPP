@@ -7,10 +7,10 @@
 
 import UIKit
 
-class MLoginOptionView: UIView {
+final class MLoginOptionView: UIView {
     
-    let imageView = UIImageView()
-    let titleLabel = UILabel()
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

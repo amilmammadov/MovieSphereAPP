@@ -7,10 +7,10 @@
 
 import UIKit
 
-class MSingleImageCell: UICollectionViewCell {
+final class MSingleImageCell: UICollectionViewCell {
     
     static let reuseId = "MSingleImageCell"
-    let posterImage = UIImageView()
+    private let posterImage = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

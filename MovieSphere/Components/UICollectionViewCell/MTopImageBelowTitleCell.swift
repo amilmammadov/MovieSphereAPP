@@ -7,12 +7,12 @@
 
 import UIKit
 
-class MTopImageBelowTitleCell: UICollectionViewCell {
+final class MTopImageBelowTitleCell: UICollectionViewCell {
     
     static let reuseId = "MTopImageBelowTitleCell"
     
-    let imageView = UIImageView()
-    let titleLabel = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 12, textAlignment: .center)
+    private let imageView = UIImageView()
+    private let titleLabel = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 12, textAlignment: .center)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

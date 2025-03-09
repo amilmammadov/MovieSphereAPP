@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MCustomSearchBar: MTextField {
+final class MCustomSearchBar: MTextField {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

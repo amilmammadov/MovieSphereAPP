@@ -7,14 +7,14 @@
 
 import UIKit
 
-class MReviewCell: UICollectionViewCell {
+final class MReviewCell: UICollectionViewCell {
     
     static let reuseId = "MReviewCell"
     
-    let profileImageView = UIImageView()
-    let ratingByReviewer = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 12, textAlignment: .center)
-    let reviewerTitle = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 12, textAlignment: .left)
-    let reviewTitle = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 12, textAlignment: .justified)
+    private let profileImageView = UIImageView()
+    private let ratingByReviewer = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 12, textAlignment: .center)
+    private let reviewerTitle = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 12, textAlignment: .left)
+    private let reviewTitle = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 12, textAlignment: .justified)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

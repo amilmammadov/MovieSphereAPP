@@ -7,11 +7,11 @@
 
 import UIKit
 
-class MCategoryCell: UICollectionViewCell {
+final class MCategoryCell: UICollectionViewCell {
     
     static let reuseId = "MCategoryCell"
     
-    let categoryLabel = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 14,textAlignment: .center)
+    private let categoryLabel = MTitleLabel(text: nil, font: MFont.poppinsMedium, size: 14,textAlignment: .center)
     let bottomLine = UILabel()
     
     override init(frame: CGRect) {

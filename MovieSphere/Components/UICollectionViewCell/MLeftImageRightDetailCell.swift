@@ -7,23 +7,28 @@
 
 import UIKit
 
-class MLeftImageRightDetailCell: UICollectionViewCell {
+final class MLeftImageRightDetailCell: UICollectionViewCell {
     
     static let reuseId = "MLeftImageRightDetailCell"
     
-    let movieImage = UIImageView()
-    let genreImage = UIImageView(image: SFSymbols.ticket)
-    let movieTitle = UILabel()
-    var voteTitle = MLeftIconRightLabelView(icon: SFSymbols.star  ?? UIImage(), title: nil, color: Colors.starColor ?? UIColor(), font: 12)
-    var releaseDateTitle = MLeftIconRightLabelView(icon: SFSymbols.calendar ?? UIImage(), title: nil, color: UIColor.white, font: 12)
+    private let movieImage = UIImageView()
+    private let genreImage = UIImageView(image: SFSymbols.ticket)
+    private let movieTitle = UILabel()
+    private let voteTitle = MLeftIconRightLabelView(icon: SFSymbols.star  ?? UIImage(), title: nil, color: Colors.starColor ?? UIColor(), font: 12)
+    private let releaseDateTitle = MLeftIconRightLabelView(icon: SFSymbols.calendar ?? UIImage(), title: nil, color: UIColor.white, font: 12)
     
-    var genreCollection: UICollectionView!
+    lazy var genreCollection: UICollectionView = {
+        genreCollection = UICollectionView(frame: .zero, collectionViewLayout: createGenreCollectionLayout())
+        genreCollection.backgroundColor = Colors.backGround
+        genreCollection.showsHorizontalScrollIndicator = false
+        genreCollection.configure(self, MGenreCell.self, MGenreCell.reuseId)
+        return genreCollection
+    }()
     var genreNames: Array<String>?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureGenreCollection()
         configure()
         
     }
@@ -38,13 +43,6 @@ class MLeftImageRightDetailCell: UICollectionViewCell {
         voteTitle.titleLabel.text = String(movie.voteAverage!)
         releaseDateTitle.titleLabel.text = movie.releaseDate
         genreNames = genreList
-    }
-    
-    private func configureGenreCollection(){
-        genreCollection = UICollectionView(frame: .zero, collectionViewLayout: createGenreCollectionLayout())
-        genreCollection.backgroundColor = Colors.backGround
-        genreCollection.showsHorizontalScrollIndicator = false
-        genreCollection.configure(self, MGenreCell.self, MGenreCell.reuseId)
     }
     
     private func createGenreCollectionLayout()->UICollectionViewFlowLayout{

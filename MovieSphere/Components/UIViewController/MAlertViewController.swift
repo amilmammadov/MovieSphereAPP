@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MAlertViewController: UIViewController {
+final class MAlertViewController: UIViewController {
     
-    let messageLabel = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 20, textAlignment: .center)
+    private let messageLabel = MTitleLabel(text: nil, font: MFont.poppinsRegular, size: 20, textAlignment: .center)
 
     override func viewDidLoad() {
         super.viewDidLoad()

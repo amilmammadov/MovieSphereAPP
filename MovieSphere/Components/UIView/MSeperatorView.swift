@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MSeperatorView: UIView {
+final class MSeperatorView: UIView {
     
-    let label = UILabel()
+    private let label = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
