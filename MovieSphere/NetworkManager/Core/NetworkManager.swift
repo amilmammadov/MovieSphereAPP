@@ -13,7 +13,7 @@ class NetworkManager {
     func request<T: Codable>(model: T.Type,
                             url: String,
                             method: HTTPMethods = .GET,
-                            parameter: T? = nil,
+                            parameter: [String:Any]? = nil,
                             headers: [String:String]? = nil,
                             completion: @escaping ((Result<T,NetworkError>)->Void)){
         
@@ -33,7 +33,7 @@ class NetworkManager {
         
         if let parameter = parameter, method != .GET {
             do {
-                request.httpBody = try JSONEncoder().encode(parameter)
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameter)
             }catch{
                 completion(.failure(.encodingError))
             }
