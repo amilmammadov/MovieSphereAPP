@@ -14,31 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-            if error != nil || user == nil {
-                // Show the app's signed-out state.
-            } else {
-                // Show the app's signed-in state.
-            }
-        }
-        
+        GIDSignIn.sharedInstance.restorePreviousSignIn()
         FirebaseApp.configure()
         
         return true
     }
-    
-    func application(
-        _ app: UIApplication,
-        open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]
-    ) -> Bool {
-        
-        if GIDSignIn.sharedInstance.handle(url) {
-            return true
-        }
-        
-        // If not handled by this app, return false.
-        return false
-    }
+
     
     // MARK: UISceneSession Lifecycle
     
