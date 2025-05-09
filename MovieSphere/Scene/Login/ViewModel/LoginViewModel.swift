@@ -7,6 +7,15 @@
 
 import Foundation
 
+protocol LoginViewModelProtocol {
+    
+    var loginAdapter: LoginAdapter? { get set }
+    var successCallBackForLogin: ((UserModel)->Void)? { get set }
+    var errorCallBackForLogin: ((String)->Void)? { get set }
+    
+    func login(loginType: LoginType)
+}
+
 final class LoginViewModel {
     
     var loginAdapter: LoginAdapter?

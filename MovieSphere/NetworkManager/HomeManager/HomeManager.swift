@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HomeManager {
+class HomeManager: HomeManagerProtocol {
     static let shared = HomeManager()
     
     func getHomePageMovies(category: Category, page: Int, completion: @escaping ((Result<MovieModel, NetworkError>)->Void)){

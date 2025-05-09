@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SearchManager {
+class SearchManager: SearchManagerProtocol {
     static let shared = SearchManager()
     
     func getSearchPageDefaultData(category: Category,page: Int, completion: @escaping ((Result<MovieModel, NetworkError>)->Void)){

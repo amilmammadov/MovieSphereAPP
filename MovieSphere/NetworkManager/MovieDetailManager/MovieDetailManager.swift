@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MovieDetailManager {
+class MovieDetailManager: MovieDetailManagerProtocol {
     static let shared = MovieDetailManager()
     
     let language = UserDefaults.standard.string(forKey: ConstantStrings.selectedLanguage)
