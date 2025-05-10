@@ -18,15 +18,17 @@ class SearchCoordinator: Coordinator {
         
         let searchViewController = SearchViewController()
         searchViewController.title = ConstantStrings.searchTitle.localize
-        searchViewController.tabBarItem = UITabBarItem(title: ConstantStrings.searchTitle.localize, image: UIImage(named: "Search"), tag: 1)
-        searchViewController.searchCoordinator = self
+        let searchViewModel = SearchViewModel()
+        
+        searchViewController.searchViewModel = searchViewModel
+        searchViewModel.searchCoordinator = self
+        
         navigationController.viewControllers = [searchViewController]
     }
     
     func goToMovieDetailPage(movieId: Int){
         
-        let movieDetailViewController = MovieDetailViewController()
-        movieDetailViewController.movieId = movieId
-        navigationController.pushViewController(movieDetailViewController, animated: true)
+        let movieDetailCoordinator = MovieDetailCoordinator(navigationController: navigationController, movieId: movieId)
+        movieDetailCoordinator.start()
     }
 }

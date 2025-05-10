@@ -14,13 +14,12 @@ final class LoginOptionsViewController: UIViewController {
     private let facebookLogin = MLoginOptionView(image: SFSymbols.facebookLogo ?? UIImage(), title: ConstantStrings.continueWithFacebook, color: Colors.facebookLoginBackground ?? UIColor(), textColor: .white)
     
     
-    private let loginViewModel = LoginViewModel()
+    var loginOptionsViewModel: LoginOptionsViewModelProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = Colors.searchTextFieldBackGround
-        loginViewModel.loginAdapter = LoginAdapter(controller: self)
         
         addSubviews()
         configure()
@@ -43,14 +42,14 @@ final class LoginOptionsViewController: UIViewController {
     
     @objc func googleLoginViewTapped(){
         
-        loginViewModel.login(loginType: .google)
-        loginViewModel.successCallBackForLogin = {user in
+        loginOptionsViewModel?.login(loginType: .google)
+        loginOptionsViewModel?.successCallBackForLogin = {user in
 
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                 sceneDelegate.appCoordinator?.putMainPageToRoot()
             }
         }
-        loginViewModel.errorCallBackForLogin = { [weak self] error in
+        loginOptionsViewModel?.errorCallBackForLogin = { [weak self] error in
             guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
@@ -58,20 +57,20 @@ final class LoginOptionsViewController: UIViewController {
     
     @objc func appleLoginViewTapped(){
         
-        loginViewModel.errorCallBackForLogin = { [weak self] error in
+        loginOptionsViewModel?.errorCallBackForLogin = { [weak self] error in
             guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
-        loginViewModel.login(loginType: .apple)
+        loginOptionsViewModel?.login(loginType: .apple)
     }
     
     @objc func facebookLoginViewTapped(){
         
-        loginViewModel.errorCallBackForLogin = { [weak self] error in
+        loginOptionsViewModel?.errorCallBackForLogin = { [weak self] error in
             guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
-        loginViewModel.login(loginType: .facebook)
+        loginOptionsViewModel?.login(loginType: .facebook)
     }
     
     private func addSubviews(){

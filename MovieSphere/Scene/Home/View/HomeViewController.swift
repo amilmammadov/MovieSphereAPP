@@ -38,14 +38,8 @@ final class HomeViewController: UIViewController {
     
     private var searchView = SearchView()
     
-    private var movieCategories: [String] {
-        return Category.allCases.map {$0.rawValue}
-    }
-    
-    private var selectedCategery: Category = .nowPlaying
-    
-    private let homeViewModel = HomeViewModel()
-    var homeCoordinator: HomeCoordinator?
+    var homeViewModel: HomeViewModelProtocol?
+    var searchViewModel: SearchViewModelProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,28 +55,28 @@ final class HomeViewController: UIViewController {
     private func configureData(){
         
         showLoading()
-        homeViewModel.getHorizontalCollectionMovies(category: .popular)
-        homeViewModel.getSingleCategoryMovies(category: .nowPlaying, isNewCategory: true)
-        homeViewModel.successCallBackForHorizontalCMovies = {
+        homeViewModel?.getHorizontalCollectionMovies(category: .popular)
+        homeViewModel?.getSingleCategoryMovies(category: .nowPlaying, isNewCategory: true)
+        homeViewModel?.successCallBackForHorizontalCMovies = {
             DispatchQueue.main.async {
                 self.horizontalMovieCollection.reloadData()
                 self.dismissLoading()
             }
         }
         
-        homeViewModel.errorCallBackForHorizontalCMovies = { [weak self] error in
+        homeViewModel?.errorCallBackForHorizontalCMovies = { [weak self] error in
             guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
         
-        homeViewModel.successCallBackForSingleCategoryMovies = {
+        homeViewModel?.successCallBackForSingleCategoryMovies = {
             DispatchQueue.main.async {
                 self.movieCollectionForSingleCategory   .reloadData()
                 self.dismissLoading()
             }
         }
         
-        homeViewModel.errroCallBackForSingleCategoryMovies = { [weak self] error in
+        homeViewModel?.errroCallBackForSingleCategoryMovies = { [weak self] error in
             guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
@@ -104,12 +98,11 @@ final class HomeViewController: UIViewController {
     
         let query = searchField.text ?? ""
         if !query.isEmpty {
-            let searchViewModel = SearchViewModel()
-            searchViewModel.getGenreList()
-            searchViewModel.getSearchedMovie(queryParam: query)
-            searchViewModel.successCallBackForSearchedMovie = {
-                self.searchView.movies = searchViewModel.searhPageMovies
-                self.searchView.genreList = searchViewModel.genreNames
+            searchViewModel?.getGenreList()
+            searchViewModel?.getSearchedMovie(queryParam: query)
+            searchViewModel?.successCallBackForSearchedMovie = {
+                self.searchView.movies = self.searchViewModel?.searhPageMovies ?? []
+                self.searchView.genreList = self.searchViewModel?.genreNames ?? []
                 DispatchQueue.main.async {
                     self.searchView.searchCollection.reloadData()
                 }
@@ -172,11 +165,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case horizontalMovieCollection:
-            return homeViewModel.horizontalCollectionMovies.count
+            return homeViewModel?.horizontalCollectionMovies.count ?? 0
         case categoryCollection:
-            return movieCategories.count
+            return homeViewModel?.movieCategories.count ?? 0
         case movieCollectionForSingleCategory:
-            return homeViewModel.singleCategoryCollectionMovies.count
+            return homeViewModel?.singleCategoryCollectionMovies.count ?? 0
         default:
             break
         }
@@ -188,30 +181,36 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         case horizontalMovieCollection:
             
             guard let cell = horizontalMovieCollection.dequeueReusableCell(withReuseIdentifier: MSingleImageCell.reuseId, for: indexPath) as? MSingleImageCell else { return UICollectionViewCell() }
-            cell.set(movie: homeViewModel.horizontalCollectionMovies[indexPath.item])
+            if let horizontalCollectionMovie = homeViewModel?.horizontalCollectionMovies[indexPath.item] {
+                cell.set(movie: horizontalCollectionMovie)
+            }
             return cell
             
         case categoryCollection:
             
             guard let cell = categoryCollection.dequeueReusableCell(withReuseIdentifier: MCategoryCell.reuseId, for: indexPath) as? MCategoryCell else { return UICollectionViewCell() }
-            cell.setTitle(movieCategories[indexPath.item].localize)
+            cell.setTitle(homeViewModel?.movieCategories[indexPath.item].localize ?? "")
             return cell
             
         case movieCollectionForSingleCategory:
             
             guard let cell = movieCollectionForSingleCategory.dequeueReusableCell(withReuseIdentifier: MSingleImageCell.reuseId, for: indexPath) as? MSingleImageCell else { return UICollectionViewCell() }
         
-            switch selectedCategery {
-            case .nowPlaying:
-                cell.set(movie: homeViewModel.singleCategoryCollectionMovies[indexPath.item])
-            case .upComing:
-                cell.set(movie: homeViewModel.singleCategoryCollectionMovies[indexPath.item])
-            case .topRated:
-                cell.set(movie: homeViewModel.singleCategoryCollectionMovies[indexPath.item])
-            case .popular:
-                cell.set(movie: homeViewModel.singleCategoryCollectionMovies[indexPath.item])
+            if let categoryMovie = homeViewModel?.singleCategoryCollectionMovies[indexPath.item] {
+                switch homeViewModel?.selectedCategery {
+                case .nowPlaying:
+                    cell.set(movie: categoryMovie)
+                case .upComing:
+                    cell.set(movie: categoryMovie)
+                case .topRated:
+                    cell.set(movie: categoryMovie)
+                case .popular:
+                    cell.set(movie: categoryMovie)
+                default:
+                    break
+                }
             }
-            
+
             return cell
         default:
             break
@@ -221,8 +220,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case horizontalMovieCollection:
-            homeCoordinator?.goToMovieDetailPage(movieId: homeViewModel.horizontalCollectionMovies[indexPath.item].id ?? 0)
-            
+            homeViewModel?.goToMovieDetail(movieId: homeViewModel?.horizontalCollectionMovies[indexPath.item].id ?? 0)
         case categoryCollection:
             
             switch indexPath.item {
@@ -239,8 +237,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
             
         case movieCollectionForSingleCategory:
-            homeCoordinator?.goToMovieDetailPage(movieId: homeViewModel.singleCategoryCollectionMovies[indexPath.item].id ?? 0)
-            
+            homeViewModel?.goToMovieDetail(movieId: homeViewModel?.singleCategoryCollectionMovies[indexPath.item].id ?? 0)
         default:
             break
         }
@@ -256,7 +253,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let width = scrollView.frame.size.width
             
             if contenOffset > contentSize - width {
-                homeViewModel.horizontalCollectionPagination()
+                homeViewModel?.horizontalCollectionPagination()
             }
         case movieCollectionForSingleCategory:
             
@@ -265,7 +262,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let height = scrollView.frame.size.height
             
             if contenOffset > contentSize - height {
-                homeViewModel.verticalCollectionPagination(category: selectedCategery)
+                homeViewModel?.verticalCollectionPagination(category: homeViewModel?.selectedCategery ?? .nowPlaying)
             }
         default:
             break
@@ -283,10 +280,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
     }
     private func configureSingleCategoryCellWhenTapped(category: Category, collectionView: UICollectionView, indexPath: IndexPath){
-        selectedCategery = category
+        homeViewModel?.selectedCategery = category
         removeBottomLineFromAllCells(collectionView, indexPath)
         showLoading()
-        homeViewModel.getSingleCategoryMovies(category: category, isNewCategory: true)
+        homeViewModel?.getSingleCategoryMovies(category: category, isNewCategory: true)
         movieCollectionForSingleCategory.contentOffset = CGPoint(x: 0, y: 0)
     }
     
@@ -330,7 +327,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         case horizontalMovieCollection:
             return CGSize(width: 144, height: 212)
         case categoryCollection:
-            return CGSize(width: movieCategories[indexPath.row].count * 12 , height: 48)
+            return CGSize(width: (homeViewModel?.movieCategories[indexPath.row].count ?? 0) * 12 , height: 48)
         case movieCollectionForSingleCategory:
             return CGSize(width: ( view.frame.size.width - 72 ) / 3, height: 148)
         default:
@@ -342,7 +339,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 extension HomeViewController: SearchViewDelegate {
     
     func didMovieTapped(movieId: Int) {
-        homeCoordinator?.goToMovieDetailPage(movieId: movieId)
+        homeViewModel?.goToMovieDetail(movieId: movieId)
     }
 }
 

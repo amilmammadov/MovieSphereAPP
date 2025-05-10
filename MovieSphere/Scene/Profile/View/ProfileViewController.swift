@@ -17,7 +17,7 @@ final class ProfileViewController: UIViewController {
     
     private let languageStackView = UIStackView()
     
-    private let profileViewModel = ProfileViewModel()
+    var profileViewModel: ProfileViewModelProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ final class ProfileViewController: UIViewController {
     
     private func cofigure(){
         
-        profileViewModel.successCallBackForProfile = { [weak self] user in
+        profileViewModel?.successCallBackForProfile = { [weak self] user in
             guard let self else { return }
             
             DispatchQueue.main.async {
@@ -45,44 +45,12 @@ final class ProfileViewController: UIViewController {
             }
         }
         
-        profileViewModel.errorCallBackForProfile = { [weak self] error in
+        profileViewModel?.errorCallBackForProfile = { [weak self] error in
             guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
         
-        profileViewModel.retrieveData()
-    }
-    
-    private func addSubviews(){
-        
-        view.addSubviews(languageStackView ,profileImage, fullNameLabel, emailLabel, logoutView)
-        
-        NSLayoutConstraint.activate([
-            languageStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
-            languageStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            languageStackView.heightAnchor.constraint(equalToConstant: 44),
-            languageStackView.widthAnchor.constraint(equalToConstant: 100),
-            
-            profileImage.topAnchor.constraint(equalTo: languageStackView.bottomAnchor, constant: 40),
-            profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileImage.heightAnchor.constraint(equalToConstant: 140),
-            profileImage.widthAnchor.constraint(equalToConstant: 140),
-            
-            fullNameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 32),
-            fullNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            fullNameLabel.heightAnchor.constraint(equalToConstant: 44),
-            fullNameLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            
-            emailLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 20),
-            emailLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emailLabel.heightAnchor.constraint(equalToConstant: 44),
-            emailLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            
-            logoutView.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 40),
-            logoutView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoutView.heightAnchor.constraint(equalToConstant: 36),
-            logoutView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-        ])
+        profileViewModel?.retrieveData()
     }
     
     private func configureUIcomponents(){
@@ -126,25 +94,6 @@ final class ProfileViewController: UIViewController {
         languageStackView.distribution = .equalSpacing
     }
     
-    @objc func engLangButtonTapped(){
-        
-        setLanguageAndReload(staticStringsLanguage:Language.eng.rawValue, apiQuerylanguage: "en-US")
-    }
-    
-    @objc func rusLangButtonTapped(){
-        
-        setLanguageAndReload(staticStringsLanguage:Language.rus.rawValue, apiQuerylanguage: "ru-RU")
-    }
-    
-    private func setLanguageAndReload(staticStringsLanguage: String, apiQuerylanguage: String){
-        
-        UserDefaults.standard.set(apiQuerylanguage, forKey: ConstantStrings.selectedLanguage)
-        UserDefaults.standard.set(staticStringsLanguage, forKey: Language.key.rawValue)
-        
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.appCoordinator?.reload()
-        }
-    }
     private func configureLogOutView(){
         
         let titleLabel = MTitleLabel(text: ConstantStrings.logout.localize, font: MFont.poppinsRegular, size: 24, textAlignment: .center)
@@ -171,13 +120,55 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
+    private func addSubviews(){
+        
+        view.addSubviews(languageStackView ,profileImage, fullNameLabel, emailLabel, logoutView)
+        
+        NSLayoutConstraint.activate([
+            languageStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            languageStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            languageStackView.heightAnchor.constraint(equalToConstant: 44),
+            languageStackView.widthAnchor.constraint(equalToConstant: 100),
+            
+            profileImage.topAnchor.constraint(equalTo: languageStackView.bottomAnchor, constant: 40),
+            profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileImage.heightAnchor.constraint(equalToConstant: 140),
+            profileImage.widthAnchor.constraint(equalToConstant: 140),
+            
+            fullNameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 32),
+            fullNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            fullNameLabel.heightAnchor.constraint(equalToConstant: 44),
+            fullNameLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            
+            emailLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 20),
+            emailLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emailLabel.heightAnchor.constraint(equalToConstant: 44),
+            emailLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            
+            logoutView.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 40),
+            logoutView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoutView.heightAnchor.constraint(equalToConstant: 36),
+            logoutView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+        ])
+    }
+}
+
+extension ProfileViewController {
+    
     @objc func logoutViewTapped(){
         
-        GIDSignIn.sharedInstance.signOut()
-        UserDefaults.standard.removeObject(forKey: LoginType.google.rawValue)
-        
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.appCoordinator?.putLoginPageToRoot()
-        }
+        profileViewModel?.logOut()
     }
+    
+    @objc func rusLangButtonTapped(){
+        
+        profileViewModel?.setLanguageAndReload(staticStringsLanguage:Language.rus.rawValue, apiQuerylanguage: "ru-RU")
+    }
+    
+    @objc func engLangButtonTapped(){
+        
+        profileViewModel?.setLanguageAndReload(staticStringsLanguage:Language.eng.rawValue, apiQuerylanguage: "en-US")
+    }
+    
+    
 }

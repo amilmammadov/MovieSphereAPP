@@ -10,10 +10,9 @@ import UIKit
 final class WatchListViewController: UIViewController {
     
     private let watchListCollection = UITableView()
-    private let watchListViewModel = WatchListViewModel()
     private let emptyFavoriteView = MEmptySpaceView(image: SFSymbols.emptyFavoriteView ?? UIImage(), title: ConstantStrings.emptyFavoriteViewTitle.localize, subTitle: ConstantStrings.emptyFavoriteViewSubTitle.localize)
     
-    var watchListCoordinator: WatchListCoordinator?
+    var watchListViewModel: WatchListViewModelProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +32,8 @@ final class WatchListViewController: UIViewController {
     private func configureData(){
         
         showLoading()
-        watchListViewModel.getWatchListData()
-        watchListViewModel.successCallBack = { watchListMovies in
+        watchListViewModel?.getWatchListData()
+        watchListViewModel?.successCallBack = { watchListMovies in
             DispatchQueue.main.async {
                 if watchListMovies.isEmpty {
                     self.watchListCollection.reloadData()
@@ -47,7 +46,7 @@ final class WatchListViewController: UIViewController {
             }
         }
         
-        watchListViewModel.errorCallBackForWatchListData = { [weak self] error in
+        watchListViewModel?.errorCallBackForWatchListData = { [weak self] error in
             guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
@@ -91,13 +90,15 @@ final class WatchListViewController: UIViewController {
 extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        watchListViewModel.watchListMovies.count
+        watchListViewModel?.watchListMovies.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = watchListCollection.dequeueReusableCell(withIdentifier: MLeftImageRightInfoCell.reuseId, for: indexPath) as! MLeftImageRightInfoCell
-        cell.setData(movie: watchListViewModel.watchListMovies[indexPath.row], genreList: watchListViewModel.genreNames[indexPath.row])
+        if let movie = watchListViewModel?.watchListMovies[indexPath.row], let genreList = watchListViewModel?.genreNames[indexPath.row] {
+            cell.setData(movie: movie, genreList: genreList)
+        }
         cell.selectionStyle = .none
         return cell
     }
@@ -107,19 +108,19 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] _,_,_ in
             guard let self else { return }
             
-            let movie = self.watchListViewModel.watchListMovies[indexPath.row]
-            self.watchListViewModel.watchListMovies.remove(at: indexPath.row)
+            let movie = self.watchListViewModel?.watchListMovies[indexPath.row]
+            self.watchListViewModel?.watchListMovies.remove(at: indexPath.row)
             self.watchListCollection.deleteRows(at: [indexPath], with: .left)
             
-            self.watchListViewModel.removeMovieFromWatchlist(movieId: movie.id ?? 0)
-            self.watchListViewModel.errorCallBackForRemoveMovie = { [weak self] error in
+            self.watchListViewModel?.removeMovieFromWatchlist(movieId: movie?.id ?? 0)
+            self.watchListViewModel?.errorCallBackForRemoveMovie = { [weak self] error in
                 guard let self else { return }
                 self.presentAlertOnMainThread(with: error)
             }
             
-            self.watchListViewModel.getWatchListData()
+            self.watchListViewModel?.getWatchListData()
             
-            guard !self.watchListViewModel.watchListMovies.isEmpty else {
+            guard self.watchListViewModel?.watchListMovies != nil else {
                 self.addEmptyFavoriteView()
                 return
             }
@@ -135,7 +136,7 @@ extension WatchListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        watchListCoordinator?.goToMovieDetailPage(movieId: watchListViewModel.watchListMovies[indexPath.row].id ?? 0)
+        watchListViewModel?.goToMovieDetailPage(movieId: watchListViewModel?.watchListMovies[indexPath.item].id ?? 0)
     }
 }
 

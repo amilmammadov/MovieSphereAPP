@@ -20,8 +20,7 @@ final class SearchViewController: UIViewController {
     
     private let emptySearchView = MEmptySpaceView(image: SFSymbols.emptySearchView ?? UIImage(), title: ConstantStrings.emptySpaceViewTitle.localize, subTitle: ConstantStrings.emptySpaceViewSubTitle.localize)
     
-    private let searchViewModel = SearchViewModel()
-    var searchCoordinator: SearchCoordinator?
+    var searchViewModel: SearchViewModelProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,15 +34,15 @@ final class SearchViewController: UIViewController {
     private func configureData(){
         
         showLoading()
-        searchViewModel.getSearchPageDefaultData(category: .popular)
-        searchViewModel.successCallBackForSearchPageDefaultMovies = {
+        searchViewModel?.getSearchPageDefaultData(category: .popular)
+        searchViewModel?.successCallBackForSearchPageDefaultMovies = {
             DispatchQueue.main.async {
                 self.searchCollection.reloadData()
                 self.dismissLoading()
             }
         }
         
-        searchViewModel.errorCallBackForSearchPageDefaultMovies = { [weak self] error in
+        searchViewModel?.errorCallBackForSearchPageDefaultMovies = { [weak self] error in
             guard let self else { return }
             self.presentAlertOnMainThread(with: error)
         }
@@ -60,12 +59,12 @@ final class SearchViewController: UIViewController {
         let query = searchField.text ?? ""
         
         if query.isEmpty {
-            searchViewModel.getSearchPageDefaultData(category: .popular)
+            searchViewModel?.getSearchPageDefaultData(category: .popular)
         }else {
             
-            searchViewModel.getSearchedMovie(queryParam: query)
-            searchViewModel.successCallBackForSearchedMovie = {
-                if self.searchViewModel.searhPageMovies.isEmpty{
+            searchViewModel?.getSearchedMovie(queryParam: query)
+            searchViewModel?.successCallBackForSearchedMovie = {
+                if self.searchViewModel?.searhPageMovies == nil {
                     DispatchQueue.main.async {
                         self.addEmptySpaceView()
                     }
@@ -77,7 +76,7 @@ final class SearchViewController: UIViewController {
                 }
             }
             
-            searchViewModel.errorCallBackForSearchedMovie = { [weak self] error in
+            searchViewModel?.errorCallBackForSearchedMovie = { [weak self] error in
                 guard let self else { return }
                 self.presentAlertOnMainThread(with: error)
             }
@@ -142,12 +141,15 @@ final class SearchViewController: UIViewController {
 }
 extension SearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        searchViewModel.searhPageMovies.count
+        searchViewModel?.searhPageMovies.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = searchCollection.dequeueReusableCell(withReuseIdentifier: MLeftImageRightDetailCell.reuseId, for: indexPath) as! MLeftImageRightDetailCell
-        cell.setData(movie: searchViewModel.searhPageMovies[indexPath.row], genreList: searchViewModel.genreNames[indexPath.row])
+        
+        if let movie = searchViewModel?.searhPageMovies[indexPath.row], let genreList = searchViewModel?.genreNames[indexPath.row] {
+            cell.setData(movie: movie, genreList: genreList)
+        }
         cell.genreCollection.reloadData()
         return cell
     }
@@ -155,7 +157,7 @@ extension SearchViewController: UICollectionViewDataSource {
 extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        searchCoordinator?.goToMovieDetailPage(movieId: searchViewModel.searhPageMovies[indexPath.row].id ?? 0)
+        searchViewModel?.goToMovieDetailPage(movieId: searchViewModel?.searhPageMovies[indexPath.item].id ?? 0)
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
@@ -165,7 +167,7 @@ extension SearchViewController: UICollectionViewDelegate {
         
         if contenOffset > contentSize - height {
            
-            searchViewModel.pagination()
+            searchViewModel?.pagination()
         }
     }
 }

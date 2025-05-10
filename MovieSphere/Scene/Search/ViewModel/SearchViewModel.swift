@@ -7,11 +7,32 @@
 
 import Foundation
 
-final class SearchViewModel {
+protocol SearchViewModelProtocol {
+ 
+    var searhPageMovies: [Movie] { get set }
+    var genreList: [Genre] { get set }
+    var genreNames: [[String]] { get set }
+    var page: Int { get set }
+    var movieModel: MovieModel? { get set }
     
-    var searhPageMovies = Array<Movie>()
-    var genreList = Array<Genre>()
-    var genreNames = [[String]]()
+    var successCallBackForSearchPageDefaultMovies: (()->Void)? { get set }
+    var successCallBackForSearchedMovie: (()->Void)? { get set }
+    
+    var errorCallBackForSearchPageDefaultMovies: ((String)->Void)? { get set }
+    var errorCallBackForSearchedMovie: ((String)->Void)? { get set }
+    
+    func getSearchPageDefaultData(category: Category)
+    func getGenreList()
+    func getSearchedMovie(queryParam: String)
+    func pagination()
+    func goToMovieDetailPage(movieId: Int)
+}
+
+final class SearchViewModel: SearchViewModelProtocol {
+    
+    var searhPageMovies: [Movie] = []
+    var genreList: [Genre] = []
+    var genreNames: [[String]] = []
     var page: Int = 1
     var movieModel: MovieModel?
     
@@ -20,6 +41,8 @@ final class SearchViewModel {
     
     var errorCallBackForSearchPageDefaultMovies: ((String)->Void)?
     var errorCallBackForSearchedMovie: ((String)->Void)?
+    
+    var searchCoordinator: SearchCoordinator?
 
     func getSearchPageDefaultData(category: Category){
         getGenreList()
@@ -90,5 +113,9 @@ final class SearchViewModel {
            page += 1
            getSearchPageDefaultData(category: .popular)
        }
+    }
+    
+    func goToMovieDetailPage(movieId: Int) {
+        searchCoordinator?.goToMovieDetailPage(movieId: movieId)
     }
 }

@@ -12,7 +12,8 @@ final class LoginViewController: UIViewController {
     private let posterImage = UIImageView()
     private let titleLabel = MTitleLabel(text: ConstantStrings.loginPageText, font: MFont.poppinsSemiBold, size: 24, textAlignment: .center)
     private let continueButton = UIButton()
-    private let loginOptionsViewController = LoginOptionsViewController()
+    
+    var loginViewModel: LoginViewModelProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +45,7 @@ final class LoginViewController: UIViewController {
     
     @objc func continueButtonTapped(){
         
-        presentModalViewController(loginOptionsViewController)
+        loginViewModel?.presentLiginOptions()
     }
     
     private func addSubviews(){

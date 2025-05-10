@@ -7,7 +7,21 @@
 
 import Foundation
 
-final class WatchListViewModel {
+protocol WatchListViewModelProtocol {
+    
+    var watchListMovies: [MovieDetailModel] { get set }
+    var genreNames: [[String]] { get set }
+    var successCallBack: (([MovieDetailModel])->Void)? { get set }
+    
+    var errorCallBackForWatchListData: ((String)->Void)? { get set }
+    var errorCallBackForRemoveMovie: ((String)->Void)? { get set }
+    
+    func getWatchListData()
+    func removeMovieFromWatchlist(movieId: Int)
+    func goToMovieDetailPage(movieId: Int)
+}
+
+final class WatchListViewModel: WatchListViewModelProtocol {
     
     var watchListMovies = [MovieDetailModel]()
     var genreNames = [[String]]()
@@ -15,6 +29,8 @@ final class WatchListViewModel {
     
     var errorCallBackForWatchListData: ((String)->Void)?
     var errorCallBackForRemoveMovie: ((String)->Void)?
+    
+    var watchListCoordinator: WatchListCoordinator?
     
     func getWatchListData(){
         
@@ -52,5 +68,9 @@ final class WatchListViewModel {
             }
             genreNames.append(genresForSingleMovie)
         }
+    }
+    
+    func goToMovieDetailPage(movieId: Int) {
+        watchListCoordinator?.goToMovieDetailPage(movieId: movieId)
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 class WatchListCoordinator: Coordinator {
+    
     var navigationController: UINavigationController
     
     init(navigationController: UINavigationController){
@@ -18,15 +19,17 @@ class WatchListCoordinator: Coordinator {
         
         let watchListViewController = WatchListViewController()
         watchListViewController.title = ConstantStrings.watchListTitle.localize
-        watchListViewController.tabBarItem = UITabBarItem(title: ConstantStrings.watchListTitle.localize, image: UIImage(named: "WatchList"), tag: 2)
-        watchListViewController.watchListCoordinator = self
+        let watchListViewModel = WatchListViewModel()
+        
+        watchListViewController.watchListViewModel = watchListViewModel
+        watchListViewModel.watchListCoordinator = self
+        
         navigationController.viewControllers = [watchListViewController]
     }
     
     func goToMovieDetailPage(movieId: Int){
         
-        let movieDetailViewController = MovieDetailViewController()
-        movieDetailViewController.movieId = movieId
-        navigationController.pushViewController(movieDetailViewController, animated: true)
+        let movieDetailCoordinator = MovieDetailCoordinator(navigationController: navigationController, movieId: movieId)
+        movieDetailCoordinator.start()
     }
 }

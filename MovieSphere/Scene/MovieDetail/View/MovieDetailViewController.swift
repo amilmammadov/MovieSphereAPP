@@ -26,9 +26,8 @@ final class MovieDetailViewController: UIViewController {
     
     private let containerView = UIView()
     
-    var movieId: Int?
-    private let movieDetailViewModel = MovieDetailViewModel()
-    private var tappedButton = ConstantStrings.aboutMovie
+    
+    var movieDetailViewModel: MovieDetailViewModelProtocol?
     
     private var isMarkButtonTapped = false {
         didSet {
@@ -51,21 +50,21 @@ final class MovieDetailViewController: UIViewController {
     private func configureData(){
         
         showLoading()
-        movieDetailViewModel.getMovieDetail(id: movieId ?? 0)
-        movieDetailViewModel.successCallBackForMovieDetail = {
+        movieDetailViewModel?.getMovieDetail(id: movieDetailViewModel?.movieId ?? 0)
+        movieDetailViewModel?.successCallBackForMovieDetail = {
             DispatchQueue.main.async {
-                self.backPosterImage.loadUrl(path: self.movieDetailViewModel.movieDetail?.backdropPath ?? "")
-                self.voteAverageView.titleLabel.text = String(self.movieDetailViewModel.movieDetail?.voteAverage ?? 0)
-                self.posterImage.loadUrl(path: self.movieDetailViewModel.movieDetail?.posterPath ?? "")
-                self.titleLabel.text = self.movieDetailViewModel.movieDetail?.title
-                self.releaseYearView.titleLabel.text = self.movieDetailViewModel.movieDetail?.releaseDate
-                self.runtimeView.titleLabel.text = String(self.movieDetailViewModel.movieDetail?.runtime ?? 0) + ConstantStrings.minutes.localize
+                self.backPosterImage.loadUrl(path: self.movieDetailViewModel?.movieDetail?.backdropPath ?? "")
+                self.voteAverageView.titleLabel.text = String(self.movieDetailViewModel?.movieDetail?.voteAverage ?? 0)
+                self.posterImage.loadUrl(path: self.movieDetailViewModel?.movieDetail?.posterPath ?? "")
+                self.titleLabel.text = self.movieDetailViewModel?.movieDetail?.title
+                self.releaseYearView.titleLabel.text = self.movieDetailViewModel?.movieDetail?.releaseDate
+                self.runtimeView.titleLabel.text = String(self.movieDetailViewModel?.movieDetail?.runtime ?? 0) + ConstantStrings.minutes.localize
                 self.setAboutMovieWhenViewDidload()
                 self.dismissLoading()
             }
         }
-        movieDetailViewModel.getReviewsForMovie(id: movieId ?? 0)
-        movieDetailViewModel.getMovieCast(id: movieId ?? 0)
+        movieDetailViewModel?.getReviewsForMovie(id: movieDetailViewModel?.movieId ?? 0)
+        movieDetailViewModel?.getMovieCast(id: movieDetailViewModel?.movieId ?? 0)
     }
     
     // MARK - This func for showing about movie when viewDidload work
@@ -74,7 +73,7 @@ final class MovieDetailViewController: UIViewController {
         
         aboutMovieButton.addBottomLine()
         
-        let aboutMovieView = AboutMovieView(movieOverview: movieDetailViewModel.movieDetail?.overview ?? "")
+        let aboutMovieView = AboutMovieView(movieOverview: movieDetailViewModel?.movieDetail?.overview ?? "")
         containerView.addSubview(aboutMovieView)
         aboutMovieView.frame = containerView.bounds
     }
@@ -92,14 +91,14 @@ final class MovieDetailViewController: UIViewController {
         isMarkButtonTapped.toggle()
         
         if isMarkButtonTapped {
-            movieDetailViewModel.addMovieToDatabase(movie: movieDetailViewModel.movieDetail ?? MovieDetailModel())
-            movieDetailViewModel.errorCallBackWhenAddingDatabase = { [weak self] error in
+            movieDetailViewModel?.addMovieToDatabase(movie: movieDetailViewModel?.movieDetail ?? MovieDetailModel())
+            movieDetailViewModel?.errorCallBackWhenAddingDatabase = { [weak self] error in
                 guard let self else { return }
                 self.presentAlertOnMainThread(with: error)
             }
         }else{
-            movieDetailViewModel.removeMovieFromWatchlist(movieId: movieId ?? 0)
-            movieDetailViewModel.errorCallBackForRemoveFromDatabase = { [weak self] error in
+            movieDetailViewModel?.removeMovieFromWatchlist(movieId: movieDetailViewModel?.movieId ?? 0)
+            movieDetailViewModel?.errorCallBackForRemoveFromDatabase = { [weak self] error in
                 guard let self else { return }
                 self.presentAlertOnMainThread(with: error)
             }
@@ -113,8 +112,8 @@ final class MovieDetailViewController: UIViewController {
     
     private func configureUIComponents(){
         
-        movieDetailViewModel.checkMovieInDatabase(movieId: movieId ?? 0)
-        movieDetailViewModel.successCallBackForCheckMovie = {
+        movieDetailViewModel?.checkMovieInDatabase(movieId: movieDetailViewModel?.movieId ?? 0)
+        movieDetailViewModel?.successCallBackForCheckMovie = {
             self.isMarkButtonTapped = true
         }
         
@@ -135,21 +134,21 @@ final class MovieDetailViewController: UIViewController {
     @objc func aboutMovieButtonTapped(){
     
         addBottomLineToButtons(aboutMovieButton)
-        let aboutMovieView = AboutMovieView(movieOverview: movieDetailViewModel.movieDetail?.overview ?? "")
+        let aboutMovieView = AboutMovieView(movieOverview: movieDetailViewModel?.movieDetail?.overview ?? "")
         configureContainerView(aboutMovieView)
     }
     
     @objc func reviewsButtonTapped(){
         
         addBottomLineToButtons(reviewsButton)
-        let reviewView = ReviewsView(reviews: movieDetailViewModel.movieReviews ?? [])
+        let reviewView = ReviewsView(reviews: movieDetailViewModel?.movieReviews ?? [])
         configureContainerView(reviewView)
     }
     
     @objc func castButtonTapped(){
         
         addBottomLineToButtons(castButton)
-        let movieCastView = MovieCastView(movieCast: movieDetailViewModel.movieCast ?? [])
+        let movieCastView = MovieCastView(movieCast: movieDetailViewModel?.movieCast ?? [])
         configureContainerView(movieCastView)
     }
     

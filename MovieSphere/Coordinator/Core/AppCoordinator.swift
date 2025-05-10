@@ -50,8 +50,8 @@ class AppCoordinator: Coordinator {
     
     func putLoginPageToRoot(){
         
-        window.rootViewController = LoginViewController()
-        window.makeKeyAndVisible()
+        let loginAdapter = LoginCoordinator(window: window, navigationController: navigationController)
+        loginAdapter.start()
     }
     
     func configureNavigationBar(){

@@ -18,7 +18,10 @@ class ProfileCoordinator: Coordinator {
         
         let profileViewController = ProfileViewController()
         profileViewController.title = ConstantStrings.profileTitle.localize
-        profileViewController.tabBarItem = UITabBarItem(title: ConstantStrings.profileTitle.localize, image: UIImage(systemName: "person.crop.circle"), tag: 3)
+        let profileViewModel = ProfileViewModel()
+        
+        profileViewController.profileViewModel = profileViewModel
+        
         navigationController.viewControllers = [profileViewController]
     }
 }

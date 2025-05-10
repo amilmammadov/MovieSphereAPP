@@ -8,11 +8,37 @@
 import Foundation
 import FirebaseFirestore
 
-final class MovieDetailViewModel {
+protocol MovieDetailViewModelProtocol {
+    
+    var movieDetail: MovieDetailModel? { get set }
+    var movieReviews: [Review]? { get set }
+    var movieCast: [Actor]? { get set }
+    var movieId: Int? { get set }
+    var tappedButton: String { get set }
+    
+    var successCallBackForMovieDetail: (()->Void)? { get set }
+    var successCallBackForCheckMovie: (()->Void)? { get set }
+    
+    var errorCallBackForMovieDetail: ((String)->Void)? { get set }
+    var errorsCallBackForCheckMovie: ((String)->Void)? { get set }
+    var errorCallBackWhenAddingDatabase: ((String)->Void)? { get set }
+    var errorCallBackForRemoveFromDatabase: ((String)->Void)? { get set }
+    
+    func getMovieDetail(id: Int)
+    func getReviewsForMovie(id: Int)
+    func getMovieCast(id: Int)
+    func addMovieToDatabase(movie: MovieDetailModel)
+    func checkMovieInDatabase(movieId: Int)
+    func removeMovieFromWatchlist(movieId: Int)
+}
+
+final class MovieDetailViewModel: MovieDetailViewModelProtocol {
     
     var movieDetail: MovieDetailModel?
     var movieReviews: [Review]?
     var movieCast: [Actor]?
+    var movieId: Int?
+    var tappedButton: String = ConstantStrings.aboutMovie
     
     var successCallBackForMovieDetail: (()->Void)?
     var successCallBackForCheckMovie: (()->Void)?
@@ -59,7 +85,7 @@ final class MovieDetailViewModel {
             switch result {
             case .success(let data):
                 self.movieCast = data.cast ?? []
-            case .failure(let error):
+            case .failure(_):
                 break
             }
         }
@@ -81,7 +107,7 @@ final class MovieDetailViewModel {
         FirebaseManager.shared.checKMovieInDatabase(movieId: movieId) { [weak self] error in
             guard let self else { return }
             
-            guard let error = error else {
+            guard let _ = error else {
                 self.successCallBackForCheckMovie?()
                 return
             }

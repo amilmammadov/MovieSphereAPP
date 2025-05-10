@@ -17,15 +17,19 @@ class HomeCoordinator: Coordinator {
     func start() {
         
         let homeViewController = HomeViewController()
-        homeViewController.tabBarItem = UITabBarItem(title: ConstantStrings.homeTitle.localize, image: UIImage(named: "Home"), tag: 0)
-        homeViewController.homeCoordinator = self
+        let homeViewModel = HomeViewModel()
+        let searchViewModel = SearchViewModel()
+        
+        homeViewController.homeViewModel = homeViewModel
+        homeViewController.searchViewModel = searchViewModel    
+        homeViewModel.homeCoordinator = self
+        
         navigationController.viewControllers = [homeViewController]
     }
     
     func goToMovieDetailPage(movieId: Int){
         
-        let movieDetailViewController = MovieDetailViewController()
-        movieDetailViewController.movieId = movieId
-        navigationController.pushViewController(movieDetailViewController, animated: true)
+        let movieDetailCoordinator = MovieDetailCoordinator(navigationController: navigationController, movieId: movieId)
+        movieDetailCoordinator.start()
     }
 }

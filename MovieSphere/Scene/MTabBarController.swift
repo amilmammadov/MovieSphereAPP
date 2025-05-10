@@ -7,7 +7,19 @@
 
 import UIKit
 
+struct TabItem {
+    let image: UIImage
+    let title: String
+}
+
 class MTabBarController: UITabBarController {
+    
+    private let tabBarItems: [TabItem] = [
+        .init(image: UIImage(named: "Home") ?? UIImage(), title: ConstantStrings.homeTitle.localize),
+        .init(image: UIImage(named: "Search") ?? UIImage(), title: ConstantStrings.searchTitle.localize),
+        .init(image: UIImage(named: "WatchList") ?? UIImage(), title: ConstantStrings.watchListTitle.localize),
+        .init(image: UIImage(systemName: "person.crop.circle") ?? UIImage(), title: ConstantStrings.profileTitle.localize)
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,5 +53,12 @@ class MTabBarController: UITabBarController {
             watchLishCoordinator.navigationController,
             profileCoordinator.navigationController
         ]
+        
+        viewControllers?.enumerated().forEach({ index, viewController in
+            
+            let tabItem = tabBarItems[index]
+            
+            viewController.tabBarItem = UITabBarItem(title: tabItem.title, image: tabItem.image, tag: index)
+        })
     }
 }
