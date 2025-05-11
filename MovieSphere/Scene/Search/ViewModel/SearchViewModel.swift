@@ -97,7 +97,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     private func findGenreNameWithIdForSingleMovie(){
         for movie in searhPageMovies {
             var genreListForSingleMovie = [String]()
-            for genreId in movie.genreIds! {
+            for genreId in movie.genreIds ?? [] {
                 for genre in genreList {
                     if genreId == genre.id {
                         genreListForSingleMovie.append(genre.name ?? "")

@@ -64,7 +64,7 @@ final class SearchViewController: UIViewController {
             
             searchViewModel?.getSearchedMovie(queryParam: query)
             searchViewModel?.successCallBackForSearchedMovie = {
-                if self.searchViewModel?.searhPageMovies == nil {
+                if self.searchViewModel?.searhPageMovies == [] {
                     DispatchQueue.main.async {
                         self.addEmptySpaceView()
                     }

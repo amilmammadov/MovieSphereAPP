@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieModel:Codable {
+struct MovieModel:Codable, Equatable {
     let page: Int?
     let results: [Movie]?
     let totalPages: Int?
@@ -20,7 +20,7 @@ struct MovieModel:Codable {
     }
 }
 
-struct Movie:Codable {
+struct Movie:Codable, Equatable {
     
     let backdropPath: String?
     let genreIds: [Int]?

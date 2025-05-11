@@ -40,7 +40,7 @@ final class MLeftImageRightDetailCell: UICollectionViewCell {
     func setData(movie: Movie, genreList: [String]){
         movieImage.loadUrl(path: movie.posterPath ?? "")
         movieTitle.text = movie.title
-        voteTitle.titleLabel.text = String(movie.voteAverage!)
+        voteTitle.titleLabel.text = String(movie.voteAverage ?? 0.0)
         releaseDateTitle.titleLabel.text = movie.releaseDate
         genreNames = genreList
     }
